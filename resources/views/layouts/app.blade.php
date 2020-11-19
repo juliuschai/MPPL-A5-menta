@@ -40,6 +40,15 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
+                            @if (strpos(Request::url(), 'therapist.'.Config::get('app.base_domain')) !== false)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('index') }}">{{ __('For Patients') }}</a>
+                                </li>
+                            @else
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('therapist.index') }}">{{ __('For Therapist') }}</a>
+                                </li>
+                            @endif
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
