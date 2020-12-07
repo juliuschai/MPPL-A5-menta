@@ -15,8 +15,10 @@ class CreateTherapistsTable extends Migration
     {
         Schema::create('therapists', function (Blueprint $table) {
             $table->id();
+            $table->timestamp('verified_at')->nullable();
             $table->foreignId('user_id')->constrained('users')->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->string('dokumen_file_path');
+            $table->string('profile_pic_file')->nullable();
+            $table->string('dokumen_file')->nullable();
             $table->time('jam_buka');
             $table->time('jam_tutup');
             $table->timestamps();

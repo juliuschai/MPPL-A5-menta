@@ -16,7 +16,7 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('meeting_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->string('payment_file_path');
+            $table->string('payment_file_path')->nullable();
             $table->unsignedBigInteger('harga');
             $table->timestamp('verified_at')->nullable();
             $table->timestamps();

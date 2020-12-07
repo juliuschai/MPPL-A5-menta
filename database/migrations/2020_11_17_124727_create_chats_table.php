@@ -17,7 +17,7 @@ class CreateChatsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreignId('therapist_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->string('message');
+            $table->string('message')->default('');
             $table->timestamps();
         });
     }

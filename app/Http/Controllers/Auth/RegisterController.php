@@ -29,7 +29,9 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    public function redirectTo () {
+        return route('verify.phone');
+    }
 
     /**
      * Create a new controller instance.
@@ -52,6 +54,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone' => ['required', 'string'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -67,11 +70,14 @@ class RegisterController extends Controller
         $newUser = [
             'name' => $data['name'],
             'email' => $data['email'],
+            'phone_num' => $data['phone'],
             'password' => Hash::make($data['password']),
         ];
         if (isset($data['role'])) {
             $newUser['role'] = $data['role'];
         }
-        return User::create($newUser);
+        $user = User::create($newUser);
+        $user->createVerificationToken();
+        return $user;
     }
 }

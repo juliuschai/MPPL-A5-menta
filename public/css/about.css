@@ -1,0 +1,21 @@
+.about-img-1 {
+    background: url('http://menta.com/img/about-1.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+}
+
+.about-img-2 {
+    background: url('http://menta.com/img/menta 1.gif');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+}
+
+.about-title {
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 37px;
+}

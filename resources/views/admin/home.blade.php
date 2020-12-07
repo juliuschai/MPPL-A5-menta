@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container mt-5">
+    <div style="height: 150px"></div> <!-- padding from header -->
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

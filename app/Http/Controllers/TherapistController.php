@@ -10,21 +10,20 @@ use Illuminate\Support\Facades\Auth;
 class TherapistController extends Controller
 {
     // Landing page therapist
-    public function index() {
+    public function index()
+    {
         return view('therapist.welcome');
     }
 
     // Home/dashboard page tharpist
-    public function home() {
+    public function home()
+    {
         return view('therapist.home');
     }
 
-    public function showRegister() {
-        return view('therapist.register');
-    }
-
     // Override laravel default register by injecting user roles
-    public function register(Request $request) {
+    public function register(Request $request)
+    {
         $request['role'] = 'therapist';
         return (new RegisterController())->register($request);
     }
@@ -39,7 +38,9 @@ class TherapistController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (!Auth::attempt($credentials)) {
-            return redirect('login')->withErrors(['error1' => 'Email or password not found']);
+            return redirect('login')->withErrors([
+                'error1' => 'Email or password not found',
+            ]);
         }
 
         if (!User::cur()->isTherapist()) {
@@ -50,4 +51,17 @@ class TherapistController extends Controller
         return redirect()->intended('home');
     }
 
+    // List data
+    function listData()
+    {
+        $model = (new User())->newQuery();
+
+        return DataTables::eloquent($model)->toJson();
+    }
+
+    // List
+    function list()
+    {
+        return view('therapist.list');
+    }
 }
