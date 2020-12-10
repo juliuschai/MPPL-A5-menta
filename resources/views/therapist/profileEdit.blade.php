@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<main class="py-4 yellow">
+<main class="py-4 dark-blue">
     <div style="height: 150px"></div> <!-- padding from header -->
     <div class="container">
         <div class="row justify-content-center">
@@ -9,24 +9,19 @@
                 <div class="col rounded-rectangle white">
                     <div class="row">
                         <div class="col">
-                            <div class="title-text">{{ __('SIGN UP') }}</div>
+                            <div class="title-text">{{ __('PROFILE') }}</div>
                             <form method="POST">
                                 @csrf
 
                                 <div class="form-group row">
                                     <div class="col-md">
-                                        <input id="name" type="text"
-                                            class="form-control @error('name') is-invalid @enderror" name="name"
-                                            value="{{ old('name') }}" required autocomplete="name" autofocus
-                                            placeholder="Nama Lengkap">
-
-                                        @error('name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
+                                        <label for="profilePic">Profile Picture</label>
+                                        <input style="border: none; margin-left: -12px;" id="profilePic" type="file" name="profilePic" class="form-control">
+                                        <input id="profilePic" type="text"
+                                            class="form-control" name="profilePic"
+                                            placeholder="Nama Lengkap" required>
                                     </div>
-                                </div>
+                                    </div>
 
                                 <div class="form-group row">
                                     <div class="col-md">

@@ -56,8 +56,8 @@
                                 <div class="form-group row">
                                     <div class="col-md offset-md-4">
                                         <div class="form-check">
-                                            <input class="form-check-input" hidden="true" type="checkbox"
-                                                name="remember" id="remember" checked>
+                                            <input class="form-check-input" type="checkbox"
+                                                name="remember" id="remember" checked hidden>
                                         </div>
                                     </div>
                                 </div>

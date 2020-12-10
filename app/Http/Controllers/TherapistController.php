@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Requests\TherapistProfileRequest;
+use App\Models\Therapist;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +27,14 @@ class TherapistController extends Controller
     public function register(Request $request)
     {
         $request['role'] = 'therapist';
-        return (new RegisterController())->register($request);
+        $route = (new RegisterController())->register($request);
+
+        if (Auth::check()) {
+            $therapist = new Therapist();
+            $therapist->user_id = Auth::id();
+            $therapist->save();
+        }
+        return $route;
     }
 
     public function login(Request $request)
@@ -37,9 +46,9 @@ class TherapistController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        if (!Auth::attempt($credentials)) {
+        if (!Auth::attempt($credentials, $request->remember)) {
             return redirect('login')->withErrors([
-                'error1' => 'Email or password not found',
+                'Email or password not found',
             ]);
         }
 
@@ -49,6 +58,16 @@ class TherapistController extends Controller
         }
 
         return redirect()->intended('home');
+    }
+
+    public function viewEditProfile()
+    {
+        return view('therapist.profileEdit');
+    }
+
+    public function saveEditProfile(TherapistProfileRequest $request)
+    {
+
     }
 
     // List data

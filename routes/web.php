@@ -13,9 +13,47 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Admin routes
+Route::group(
+    ['domain' => 'admin.' . Config::get('app.base_domain')],
+    function () {
+        // Login
+        Route::post('login', [App\Http\Controllers\AdminController::class, 'login']);
+
+        Route::group(['middleware' => ['auth', 'admin']], function () {
+            // Dashboard
+            Route::get('home', [App\Http\Controllers\AdminController::class, 'home'])->name('admin.home');
+
+            // Verify terapis
+            Route::get('verify/terapis', [App\Http\Controllers\TherapistVerifyController::class, 'listVerifyTherapist'])->name('admin.verify.therapist');
+            Route::get('verify/terapis/data', [App\Http\Controllers\TherapistVerifyController::class, 'listVerifyTherapistData'])->name('admin.verify.therapist.data');
+            Route::get('verify/terapis/{therapist}', [App\Http\Controllers\TherapistVerifyController::class, 'viewVerifyTherapist'])->name('admin.verify.therapist.view');
+            Route::post('verify/terapis/{therapist}/accept', [App\Http\Controllers\TherapistVerifyController::class, 'verifyTherapistAccept'])->name('admin.verify.therapist.accept');
+            Route::post('verify/terapis/{therapist}/deny', [App\Http\Controllers\TherapistVerifyController::class, 'verifyTherapistDeny'])->name('admin.verify.therapist.deny');
+
+            // Lihat pasien blokir
+            Route::get('pasien', [App\Http\Controllers\UserController::class, 'listPatient'])->name('admin.patient');
+            Route::get('pasien/data', [App\Http\Controllers\UserController::class, 'listPatientData'])->name('admin.patient.data');
+
+            // Lihat terapis blokir
+            Route::get('terapis', [App\Http\Controllers\UserController::class, 'listTherapist'])->name('admin.therapist');
+            Route::get('terapis/data', [App\Http\Controllers\UserController::class, 'listTherapistData'])->name('admin.therapist.data');
+
+            // Lihat terapis blokir
+            Route::get('artikel', [App\Http\Controllers\ArticleController::class, 'listArticle'])->name('admin.article');
+            Route::get('artikel/data', [App\Http\Controllers\ArticleController::class, 'listArticleData'])->name('admin.article.data');
+
+            // To Delete
+            Route::get('users', [App\Http\Controllers\UserController::class, 'list'])->name('admin.users');
+            Route::get('users/data', [App\Http\Controllers\UserController::class, 'listData'])->name('admin.users.data');
+            Route::get('user/{user}', [App\Http\Controllers\UserController::class, 'view'])->name('admin.user.view');
+        });
+    }
+);
+
 // therapists routes
 Route::group(
-    ['domain' => 'therapist.' . Config::get('app.base_domain')],
+    ['domain' => 'terapis.' . Config::get('app.base_domain')],
     function () {
         // Landing page
         Route::get('/', [App\Http\Controllers\TherapistController::class, 'index'])->name('therapist.index');
@@ -27,29 +65,24 @@ Route::group(
         Route::post('login', [App\Http\Controllers\TherapistController::class, 'login']);
 
         Route::group(['middleware' => ['auth', 'therapist']], function () {
-            // Dashboard
-            Route::get('home', [App\Http\Controllers\TherapistController::class, 'home'])->name('therapist.home');
+
+            Route::get('verify', [App\Http\Controllers\TherapistVerifyController::class, 'viewVerify'])->name('therapist.verify');
+            Route::post('verify', [App\Http\Controllers\TherapistVerifyController::class, 'saveVerify']);
+
+            Route::get('verify/wait', [App\Http\Controllers\TherapistVerifyController::class, 'viewVerifyWait'])->name('therapist.verify.wait');
+
+            Route::group(['middleware' => ['verified.therapist']], function () {
+                // Dashboard
+                Route::get('home', [App\Http\Controllers\TherapistController::class, 'home'])->name('therapist.home');
+                // Therapist profile
+                Route::get('profile', [App\Http\Controllers\TherapistController::class, 'viewEditProfile'])->name('therapist.profile.edit');
+                Route::post('profile', [App\Http\Controllers\TherapistController::class, 'saveEditProfile']);
+
+            });
         });
     }
 );
 
-Route::group(
-    ['domain' => 'admin.' . Config::get('app.base_domain')],
-    function () {
-        // Login
-        Route::post('login', [App\Http\Controllers\AdminController::class, 'login']);
-
-        Route::group(['middleware' => ['auth', 'admin']], function () {
-            // Dashboard
-            Route::get('home', [App\Http\Controllers\AdminController::class, 'home'])->name('admin.home');
-
-            Route::get('users', [App\Http\Controllers\UserController::class, 'list'])->name('admin.users');
-            Route::get('users/data', [App\Http\Controllers\UserController::class, 'listData'])->name('admin.users.data');
-            Route::get('user/{user}', [App\Http\Controllers\UserController::class, 'view'])->name('admin.user.view');
-            Route::post('user/{user}/email/verify', [App\Http\Controllers\UserController::class, 'verifyEmail'])->name('admin.user.email.verify');
-        });
-    }
-);
 
 // Accessible to patient
 Route::group(
@@ -67,7 +100,7 @@ Route::group(
             ['middleware' => ['verified.phone']],
             function () {
                 Route::get('list', [App\Http\Controllers\TherapistController::class, 'list'])->name('therapist.list');
-                Route::get('listdata', [App\Http\Controllers\TherapistController::class, 'listData'])->name('therapist.list');
+                Route::get('list/data', [App\Http\Controllers\TherapistController::class, 'listData'])->name('therapist.list');
             }
         );
     }
@@ -78,7 +111,7 @@ Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('phone/verify', [App\Http\Controllers\HomeController::class, 'showVerifyPhone'])->name('verify.phone');
-    Route::post('phone/verify', [App\Http\Controllers\HomeController::class, 'verifyPhone'])->name('verify.phone');
+    Route::post('phone/verify', [App\Http\Controllers\HomeController::class, 'verifyPhone']);
 
     Route::get('phone/verify/create', [App\Http\Controllers\UserController::class, 'createVerificationToken'])->name('verify.phone.create');
 });

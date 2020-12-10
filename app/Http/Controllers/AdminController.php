@@ -22,8 +22,8 @@ class AdminController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        if (!Auth::attempt($credentials)) {
-            return redirect('login')->withErrors(['error1' => 'Email or password not found']);
+        if (!Auth::attempt($credentials, $request->remember)) {
+            return redirect('login')->withErrors(['Email or password not found']);
         }
 
         if (!User::cur()->isAdmin()) {

@@ -17,9 +17,13 @@ class HomeController extends Controller
     {
         $ret = User::cur()->verifyPhone($request->code);
         if ($ret) {
-            return redirect()->with('error', 'wrong phone code');
+            if (User::cur()->isTherapist()) {
+                return redirect()->route('therapist.home');
+            } else {
+                return redirect()->route('home');
+            }
         } else {
-            return redirect()->route('home');
+            return redirect()->back()->withErrors(['Kode Verifikasi Salah']);
         }
     }
 

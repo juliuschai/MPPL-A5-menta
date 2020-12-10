@@ -11,17 +11,29 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>     <!-- jQuery and bootstrap included -->
+    <script src="{{ asset('js/app.js') }}" defer></script> <!-- jQuery and bootstrap included -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.4/umd/popper.min.js" defer></script>
 
     <!-- Plugins -->
     {{-- <script src="{{ asset('js/scrollreveal.min.js') }}" defer></script> --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollReveal.js/4.0.7/scrollreveal.min.js" integrity="sha512-yrp2XCY0JvwOgu87K/vTN3IIHolfAJL3SMsFu0ujdKeWWMmFhClABdlxna2TfOhMqX49GbmsIpbZ6fVBE7gleQ==" crossorigin="anonymous" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/noframework.waypoints.min.js" integrity="sha512-fHXRw0CXruAoINU11+hgqYvY/PcsOWzmj0QmcSOtjlJcqITbPyypc8cYpidjPurWpCnlB8VKfRwx6PIpASCUkQ==" crossorigin="anonymous" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js" integrity="sha512-d8F1J2kyiRowBB/8/pAWsqUl0wSEOkG5KATkVV4slfblq9VRQ6MyDZVxWl2tWd+mPhuCbpTB4M7uU/x9FlgQ9Q==" crossorigin="anonymous" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/imgix.js/3.4.2/imgix.js" integrity="sha512-pFm7Rz0M+6TD/4tY+f2AuP+CffGsWKrR06J9+2yxxMf20NGI/jl7npF3WbEZeOpubYrl8qu4nScHSLWC6OMmyw==" crossorigin="anonymous" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.1/mixitup.min.js" integrity="sha512-nKZDK+ztK6Ug+2B6DZx+QtgeyAmo9YThZob8O3xgjqhw2IVQdAITFasl/jqbyDwclMkLXFOZRiytnUrXk/PM6A==" crossorigin="anonymous" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollReveal.js/4.0.7/scrollreveal.min.js"
+        integrity="sha512-yrp2XCY0JvwOgu87K/vTN3IIHolfAJL3SMsFu0ujdKeWWMmFhClABdlxna2TfOhMqX49GbmsIpbZ6fVBE7gleQ=="
+        crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/noframework.waypoints.min.js"
+        integrity="sha512-fHXRw0CXruAoINU11+hgqYvY/PcsOWzmj0QmcSOtjlJcqITbPyypc8cYpidjPurWpCnlB8VKfRwx6PIpASCUkQ=="
+        crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"
+        integrity="sha512-d8F1J2kyiRowBB/8/pAWsqUl0wSEOkG5KATkVV4slfblq9VRQ6MyDZVxWl2tWd+mPhuCbpTB4M7uU/x9FlgQ9Q=="
+        crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/imgix.js/3.4.2/imgix.js"
+        integrity="sha512-pFm7Rz0M+6TD/4tY+f2AuP+CffGsWKrR06J9+2yxxMf20NGI/jl7npF3WbEZeOpubYrl8qu4nScHSLWC6OMmyw=="
+        crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.1/mixitup.min.js"
+        integrity="sha512-nKZDK+ztK6Ug+2B6DZx+QtgeyAmo9YThZob8O3xgjqhw2IVQdAITFasl/jqbyDwclMkLXFOZRiytnUrXk/PM6A=="
+        crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+        integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
+        crossorigin="anonymous" defer></script>
 
     <!-- Global Init -->
     <script src="{{ asset('js/custom.js') }}" defer></script>
@@ -70,7 +82,30 @@
                                 {{-- <li class="scroll-to-section"><a href="#top" class="active">Beranda</a></li>
                                 <li class="scroll-to-section"><a href="#features">Tentang</a></li> --}}
                                 <li class="scroll-to-section"><a href="#our-classes">Artikel</a></li>
+                                @guest
                                 <li class="main-button"><a href="{{ route('login') }}">Masuk</a></li>
+                                @else
+                                <li class="nav-item main-button dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        Hai, {{ Auth::user()->name }}! <span class="caret"></span>
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" style="background-color: white" href="{{ 'http://'.Request::getHost().'/home' }}">Home</a>
+
+                                        <a class="dropdown-item" style="background-color: white" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                            style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </div>
+                                </li>
+                                @endguest
                                 {{-- <li class="main-button"><a href="#our-classes">Masuk</a></li> --}}
                             </ul>
                             <a class='menu-trigger'>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="py-4 dark-blue">
     <div style="height: 150px"></div> <!-- padding from header -->
     <div class="row justify-content-center">
         <div class="col-md-8">

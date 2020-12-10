@@ -27,13 +27,13 @@ class PatientController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        if (!Auth::attempt($credentials)) {
-            return redirect('login')->withErrors(['error1' => 'Email or password not found']);
+        if (!Auth::attempt($credentials, $request->remember)) {
+            return redirect('login')->withErrors(['Email or password not found']);
         }
 
         if (!User::cur()->isPatient()) {
             Auth::logout();
-            abort(403, 'Bukan pasien, silahkan login di therapist.menta.com');
+            abort(403, 'Bukan pasien, silahkan login di terapis.menta.com');
         }
 
         return redirect()->intended('home');
