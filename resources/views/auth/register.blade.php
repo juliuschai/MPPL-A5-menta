@@ -32,8 +32,8 @@
                                     <div class="col-md">
                                         <input id="email" type="email"
                                             class="form-control @error('email') is-invalid @enderror" name="email"
-                                            value="{{ old('email') }}" required autocomplete="email"
-                                            placeholder="E-mail">
+                                            pattern="[^ @]*@[^ @]*" value="{{ old('email') }}" required
+                                            autocomplete="email" placeholder="E-mail">
 
                                         @error('email')
                                         <span class="invalid-feedback" role="alert">

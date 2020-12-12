@@ -25,7 +25,7 @@
                                 </ul>
                             </div>
                             @endif
-                            <form method="POST" action="{{ route('verify.phone') }}">
+                            <form method="POST" action="{{ route('phone.verify') }}">
                                 @csrf
 
                                 <div class="form-group row">
@@ -53,7 +53,7 @@
 
                                 <div class="form-group row mb-0">
                                     <div class="col-md offset-md-4">
-                                        <a href="{{ route('verify.phone.create') }}">
+                                        <a href="{{ route('phone.verify.create') }}">
                                             <button type="button" class="btn btn-secondary">
                                                 {{ __('Kirim Ulang Kode') }}
                                             </button>
@@ -65,11 +65,6 @@
                         <div class="col">
                             <div class="row">
                                 <img src="{{ asset('img/menta-consull-3.png') }}" alt="">
-                            </div>
-                            <div class="row">
-                                <a class="btn btn-link" href="/login">
-                                    {{ __('Sudah punya akun?') }}
-                                </a>
                             </div>
                         </div>
                     </div>

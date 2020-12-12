@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TherapistProfileRequest extends FormRequest
+class PatientProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,8 +27,6 @@ class TherapistProfileRequest extends FormRequest
             'name' => 'required|string',
             'profilePic' => 'nullable|mimes:pdf,jpeg,jpg,png',
             'email' => 'nullable|email',
-            'openingHours' => 'required|string|regex:/\d{1,2}:\d{1,2}/',
-            'closingHours' => 'required|string|regex:/\d{1,2}:\d{1,2}/',
         ];
     }
 }

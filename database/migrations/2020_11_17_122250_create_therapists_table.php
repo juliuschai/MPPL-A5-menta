@@ -17,10 +17,10 @@ class CreateTherapistsTable extends Migration
             $table->id();
             $table->timestamp('verified_at')->nullable();
             $table->foreignId('user_id')->constrained('users')->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->string('profile_pic_file', 60)->nullable();
-            $table->string('dokumen_file', 60)->nullable();
-            $table->time('jam_buka')->nullable();
-            $table->time('jam_tutup')->nullable();
+            $table->string('document_file', 60)->nullable();
+            $table->time('opening_hours')->nullable();
+            $table->time('closing_hours')->nullable();
+            $table->boolean('vacation')->default(false);
             $table->timestamps();
         });
     }

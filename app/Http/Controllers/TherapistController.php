@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Requests\TherapistProfileRequest;
 use App\Models\Therapist;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -58,16 +57,6 @@ class TherapistController extends Controller
         }
 
         return redirect()->intended('home');
-    }
-
-    public function viewEditProfile()
-    {
-        return view('therapist.profileEdit');
-    }
-
-    public function saveEditProfile(TherapistProfileRequest $request)
-    {
-
     }
 
     // List data

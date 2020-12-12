@@ -18,7 +18,7 @@ class PhoneVerified
     public function handle(Request $request, Closure $next)
     {
         if (!User::cur()->isVerified()) {
-            return redirect()->route('verify.phone');
+            return redirect()->route('phone.verify');
         }
         return $next($request);
     }

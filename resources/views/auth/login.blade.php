@@ -26,8 +26,8 @@
                                     <div class="col-md">
                                         <input id="email" type="email"
                                             class="form-control underline @error('email') is-invalid @enderror"
-                                            name="email" value="{{ old('email') }}" required autocomplete="email"
-                                            autofocus placeholder="E-mail">
+                                            name="email" pattern="[^ @]*@[^ @]*" value="{{ old('email') }}" required
+                                            autocomplete="email" autofocus placeholder="E-mail">
 
                                         @error('email')
                                         <span class="invalid-feedback" role="alert">
@@ -56,8 +56,8 @@
                                 <div class="form-group row">
                                     <div class="col-md offset-md-4">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                name="remember" id="remember" checked hidden>
+                                            <input class="form-check-input" type="checkbox" name="remember"
+                                                id="remember" checked hidden>
                                         </div>
                                     </div>
                                 </div>

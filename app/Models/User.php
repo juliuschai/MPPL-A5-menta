@@ -41,6 +41,21 @@ class User extends Authenticatable
         'verified_at' => 'datetime',
     ];
 
+    public function saveProfilePic($request)
+    {
+        $file = $request->file('profilePic');
+        $this->profile_pic_file = $file->store('document', 'public');
+        $this->save();
+    }
+
+    public function saveProfile($request)
+    {
+        if ($request->email) {$this->email = $request->email;}
+
+        $this->name = $request->name;
+        $this->save();
+    }
+
     public function createVerificationToken()
     {
         $code = mt_rand(100000, 999999);

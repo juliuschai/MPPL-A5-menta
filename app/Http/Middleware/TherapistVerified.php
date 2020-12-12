@@ -19,7 +19,7 @@ class TherapistVerified
     {
         $therapist = User::cur()->therapist;
         if (!$therapist->isVerified()) {
-            if ($therapist->dokumenExists()) {
+            if ($therapist->documentExists()) {
                 return redirect()->route('therapist.verify');
             } else {
                 return redirect()->route('therapist.verify.wait');

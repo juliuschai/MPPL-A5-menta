@@ -9,16 +9,23 @@
                 <div class="col rounded-rectangle white">
                     <div class="row">
                         <div class="col">
-                            <div class="title-text">{{ __('TUNGGU VERIFIKASI') }}</div>
-                            <form method="POST">
+                            <div class="title-text">{{ __('PROFILE') }}</div>
+                            <form method="POST" action="{{ route('profile.edit') }}">
                                 @csrf
 
                                 <div class="form-group row">
-                                    <div class="col-md">
-                                        <label>Saat ini berkas Anda sedang diverifikasi
-                                            oleh Tim MENTA.
-                                            <b>Harap ditunggu dalam 1x24 jam ya!</b></label>
-                                    </div>
+                                    @if ($user->profile_pic_file)
+                                    <img src="{{ asset($user->profile_pic_file) }}" width="100px"
+                                        height="100px">
+                                    @endif
+                                </div>
+
+                                <div class="form-group row">
+                                    <label>Name: {{ $user->name }}</label>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label>E-mail: {{ $user->email }}</label>
                                 </div>
                             </form>
                         </div>

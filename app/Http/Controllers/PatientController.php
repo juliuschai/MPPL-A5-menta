@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PatientProfileRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,26 @@ class PatientController extends Controller
     public function home()
     {
         return view('home');
+    }
+
+    public function showProfileEdit()
+    {
+        $user = User::cur();
+
+        return view('profile.edit', compact('user'));
+    }
+
+    public function saveProfileEdit(PatientProfileRequest $request)
+    {
+        $user = User::cur();
+        if ($request->profilePic)
+        {
+            $user->saveProfilePic($request);
+        }
+
+        $user->saveProfile($request);
+
+        return redirect()->back();
     }
 
     public function login(Request $request)

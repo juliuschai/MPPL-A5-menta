@@ -9,27 +9,27 @@ use Yajra\DataTables\Facades\DataTables;
 
 class TherapistVerifyController extends Controller
 {
-    public function viewVerify()
+    public function show()
     {
         return view('therapist.verify.form');
     }
 
-    public function saveVerify(Request $request)
+    public function save(Request $request)
     {
         $request->validate([
-            'dokumen' => 'required|mimes:pdf,jpeg,jpg,png',
+            'document' => 'required|mimes:pdf,jpeg,jpg,png',
         ]);
 
-        User::cur()->therapist->saveDokumenFromRequest($request);
+        User::cur()->therapist->saveDocumentFromRequest($request);
         return redirect()->route('therapist.verify.wait');
     }
 
-    public function viewVerifyWait() {
+    public function showWait() {
         $therapist = User::cur()->therapist;
         if ($therapist->isVerified()) {
             return redirect()->route('therapist.home');
         }
-        if (!$therapist->dokumenExists()) {
+        if (!$therapist->documentExists()) {
             return redirect()->route('therapist.verify');
         }
 
@@ -67,7 +67,8 @@ class TherapistVerifyController extends Controller
 
     public function verifyTherapistDeny(Therapist $therapist)
     {
-        $therapist->dokumen_file = null;
+        $therapist->document_file = null;
+        $therapist->verified_at = null;
         $therapist->save();
 
         return redirect()->route('admin.verify.therapist');

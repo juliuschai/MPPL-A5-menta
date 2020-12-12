@@ -27,10 +27,12 @@ class UserController extends Controller
         return view('admin.user.view', compact('user'));
     }
 
-    public function createVerificationToken()
+    public function showProfile(User $user)
     {
-        User::cur()->createVerificationToken();
-
-        return redirect()->back();
+        if ($user->isTherapist()) {
+            return view('therapist.profile.view', compact('user'));
+        } else if ($user->isPatient()) {
+            return view('profile.view', compact('user'));
+        }
     }
 }

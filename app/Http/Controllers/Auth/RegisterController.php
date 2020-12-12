@@ -30,7 +30,7 @@ class RegisterController extends Controller
      * @var string
      */
     public function redirectTo () {
-        return route('verify.phone');
+        return route('phone.verify');
     }
 
     /**

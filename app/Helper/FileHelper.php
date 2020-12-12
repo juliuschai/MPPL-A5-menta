@@ -5,7 +5,7 @@ namespace App\Helpers;
 use Illuminate\Support\Facades\Storage;
 
 class FileHelper {
-	static function getDokumenOrFail($filename) {
+	static function getDocumentOrFail($filename) {
 		if (Storage::disk('local')->exists($filename)){
 			return Storage::disk('local')->response($filename);
 		} else {
@@ -13,7 +13,7 @@ class FileHelper {
 		}
 	}
 
-	static function downloadDokumenOrFail($filename, $userFilename) {
+	static function downloadDocumentOrFail($filename, $userFilename) {
 		if (Storage::disk('local')->exists($filename)){
 			return Storage::disk('local')->download($filename, $userFilename);
 		} else {
@@ -21,7 +21,7 @@ class FileHelper {
 		}
 	}
 
-	static function deleteDokumenOrFail($filename) {
+	static function deleteDocumentOrFail($filename) {
 		if (Storage::disk('local')->exists($filename)){
 			return Storage::disk('local')->delete($filename);
 		} else {

@@ -64,19 +64,20 @@ Route::group(
         // Login
         Route::post('login', [App\Http\Controllers\TherapistController::class, 'login']);
 
-        Route::group(['middleware' => ['auth', 'therapist']], function () {
+        Route::group(['middleware' => ['auth', 'therapist', 'verified.phone']], function () {
 
-            Route::get('verify', [App\Http\Controllers\TherapistVerifyController::class, 'viewVerify'])->name('therapist.verify');
-            Route::post('verify', [App\Http\Controllers\TherapistVerifyController::class, 'saveVerify']);
+            Route::get('verify', [App\Http\Controllers\TherapistVerifyController::class, 'show'])->name('therapist.verify');
+            Route::post('verify', [App\Http\Controllers\TherapistVerifyController::class, 'save']);
 
-            Route::get('verify/wait', [App\Http\Controllers\TherapistVerifyController::class, 'viewVerifyWait'])->name('therapist.verify.wait');
+            Route::get('verify/wait', [App\Http\Controllers\TherapistVerifyController::class, 'showWait'])->name('therapist.verify.wait');
 
             Route::group(['middleware' => ['verified.therapist']], function () {
                 // Dashboard
                 Route::get('home', [App\Http\Controllers\TherapistController::class, 'home'])->name('therapist.home');
                 // Therapist profile
-                Route::get('profile', [App\Http\Controllers\TherapistController::class, 'viewEditProfile'])->name('therapist.profile.edit');
-                Route::post('profile', [App\Http\Controllers\TherapistController::class, 'saveEditProfile']);
+                Route::get('profile', [App\Http\Controllers\TherapistProfileController::class, 'showEdit'])->name('therapist.profile.edit');
+                Route::post('profile', [App\Http\Controllers\TherapistProfileController::class, 'saveEdit']);
+                Route::get('vacation/toggle', [App\Http\Controllers\TherapistProfileController::class, 'toggleVacation'])->name('therapist.vacation.toggle');
 
             });
         });
@@ -101,6 +102,9 @@ Route::group(
             function () {
                 Route::get('list', [App\Http\Controllers\TherapistController::class, 'list'])->name('therapist.list');
                 Route::get('list/data', [App\Http\Controllers\TherapistController::class, 'listData'])->name('therapist.list');
+
+                Route::get('profile', [App\Http\Controllers\PatientController::class, 'showProfileEdit'])->name('profile.edit');
+                Route::post('profile', [App\Http\Controllers\PatientController::class, 'saveProfileEdit']);
             }
         );
     }
@@ -110,8 +114,13 @@ Route::group(
 Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('phone/verify', [App\Http\Controllers\HomeController::class, 'showVerifyPhone'])->name('verify.phone');
-    Route::post('phone/verify', [App\Http\Controllers\HomeController::class, 'verifyPhone']);
+    Route::get('phone/change', [App\Http\Controllers\PhoneController::class, 'showEdit'])->name('phone.change');
+    Route::post('phone/change', [App\Http\Controllers\PhoneController::class, 'saveEdit']);
 
-    Route::get('phone/verify/create', [App\Http\Controllers\UserController::class, 'createVerificationToken'])->name('verify.phone.create');
+    Route::get('phone/verify', [App\Http\Controllers\PhoneController::class, 'showVerify'])->name('phone.verify');
+    Route::post('phone/verify', [App\Http\Controllers\PhoneController::class, 'verify']);
+
+    Route::get('phone/verify/create', [App\Http\Controllers\PhoneController::class, 'createVerificationToken'])->name('phone.verify.create');
+
+    Route::get('view/{user}', [App\Http\Controllers\UserController::class, 'showProfile'])->name('user.view');
 });

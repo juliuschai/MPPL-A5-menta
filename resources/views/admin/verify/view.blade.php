@@ -21,29 +21,29 @@
                             @endif
                             <div class="form-group row">
                                 <div class="col-md">
-                                    <label for="dokumen">Name:</label>
+                                    <label>Name:</label>
                                     {{ $therapist->user->name }}
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-md">
-                                    <label for="dokumen">Email:</label>
+                                    <label>Email:</label>
                                     {{ $therapist->user->email }}
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-md">
-                                    <label for="dokumen">No. Telp:</label>
+                                    <label>No. Telp:</label>
                                     {{ $therapist->user->phone_num }}
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-md">
-                                    <label for="dokumen">Dokumen:</label>
-                                    <a href="{{ asset($therapist->dokumen_file) }}">
+                                    <label>Dokumen:</label>
+                                    <a href="{{ asset($therapist->document_file) }}">
                                         <button type="button">Lihat</button>
                                     </a>
                                 </div>
