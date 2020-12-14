@@ -42,6 +42,13 @@
 
                             <div class="form-group row">
                                 <div class="col-md">
+                                    <label>Bidang:</label>
+                                    {{ $therapist->expertise }}
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md">
                                     <label>Dokumen:</label>
                                     <a href="{{ asset($therapist->document_file) }}">
                                         <button type="button">Lihat</button>

@@ -21,8 +21,10 @@ class Therapist extends Model
         'vacation' => 'boolean',
     ];
 
-    public function saveDocumentFromRequest($request)
+    public function saveVerify($request)
     {
+        $this->expertise = $request->expertise;
+
         $file = $request->file('document');
         $this->document_file = $file->store('document', 'public');
         $this->verified_at = null;
@@ -39,13 +41,16 @@ class Therapist extends Model
         $this->save();
     }
 
+    /**
+     * Get all verified, available therapists.
+     */
     public static function getAvailable()
     {
         $timestring = Carbon::now()->format('H:i:s');
         Therapist::where('opening_hours', '>=', $timestring)
             ->where('closing_hours', '<=', $timestring)
             ->where('vacation', false)
-            ->get();
+            ->select();
     }
 
     public function isAvailable()

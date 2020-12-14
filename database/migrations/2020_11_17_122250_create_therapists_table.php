@@ -18,6 +18,7 @@ class CreateTherapistsTable extends Migration
             $table->timestamp('verified_at')->nullable();
             $table->foreignId('user_id')->constrained('users')->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->string('document_file', 60)->nullable();
+            $table->string('expertise')->nullable();
             $table->time('opening_hours')->nullable();
             $table->time('closing_hours')->nullable();
             $table->boolean('vacation')->default(false);

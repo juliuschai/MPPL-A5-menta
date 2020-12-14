@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Models\Therapist;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -60,15 +61,38 @@ class TherapistController extends Controller
     }
 
     // List data
-    function listData()
+    function listAvailableData(Request $request)
     {
-        $model = (new User())->newQuery();
+        $seed = $request->seed ?? rand();
+        $keyword = $request->keyword ?? '%';
+        $page = $request->page ?? 0;
 
-        return DataTables::eloquent($model)->toJson();
+        $timestring = Carbon::now()->format('H:i:s');
+        $result = User::select('users.*', 't.*')
+            ->whereNotNull('t.verified_at')
+            ->where('vacation', false)
+            ->where('opening_hours', '>=', $timestring)
+            ->where('closing_hours', '<=', $timestring)
+            ->Where(function ($query) use ($keyword) {
+                $query->where('users.name', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('t.expertise', 'LIKE', '%' . $keyword . '%');
+            })
+            ->inRandomOrder($seed)
+            ->join('therapists as t', 't.user_id', '=', 'users.id')
+            ->offset($page * 4)
+            ->limit(4)
+            ->get();
+
+        $response = [];
+        $response['seed'] = $seed;
+        $response['keyword'] = $keyword;
+        $response['results'] = $result;
+
+        return response()->json($response);
     }
 
     // List
-    function list()
+    function listAvailable()
     {
         return view('therapist.list');
     }

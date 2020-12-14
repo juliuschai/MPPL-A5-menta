@@ -7,16 +7,12 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
+                    <div class="card-header">{{ __('Admin') }}</div>
 
                     <div class="card-body">
-                        @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                        @endif
-
-                        {{ __('You are logged in!') }}
+                        <h5 class="card-title">Dashboard</h5>
+                        <p class="card-text">Dashboard</p>
+                        <a href="{{ route('therapist.list') }}" class="btn btn-primary">Terapis tersedia</a>
                     </div>
                 </div>
             </div>

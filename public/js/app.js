@@ -1932,6 +1932,116 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TherapistList.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TherapistList.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["searchUrl"],
+  data: function data() {
+    return {
+      page: 1,
+      seed: "",
+      keyword: "",
+      results: [],
+      noResults: false,
+      noMoreResults: false,
+      searching: false
+    };
+  },
+  created: function created() {
+    this.search();
+  },
+  methods: {
+    search: function search() {
+      var _this = this;
+
+      this.searching = true;
+      this.noMoreResults = false;
+      var url = this.searchUrl;
+      var urlParams = new URLSearchParams();
+      if (this.keyword) urlParams.append("keyword", this.keyword);
+      url += "?" + urlParams.toString();
+      fetch(url).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this.searching = false;
+        _this.results = res.results;
+        _this.noResults = res.results.length === 0;
+        if (res.seed) _this.sed = res.seed;
+      });
+    },
+    more: function more() {
+      var _this2 = this;
+
+      this.searching = true;
+      var url = this.searchUrl;
+      var urlParams = new URLSearchParams();
+      if (this.keyword) urlParams.append("keyword", this.keyword);
+      if (this.seed) urlParams.append("seed", this.seed);
+      if (this.page) urlParams.append("page", this.page);
+      url += "?" + urlParams.toString();
+      fetch(url).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this2.searching = false;
+
+        _this2.results.concat(res.results);
+
+        _this2.noMoreResults = res.results.length === 0;
+      });
+      this.page += 1;
+    },
+    createSearchParam: function createSearchParam() {
+      var url = this.searchUrl;
+      urlParams = new URLSearchParams();
+      if (this.keyword) urlParams.append("keyword", this.keyword);
+      if (this.seed) urlParams.append("seed", this.seed);
+    },
+    pz: function pz(inp) {
+      return ("0" + inp).slice(-2);
+    },
+    toTimeString: function toTimeString(date) {
+      date = new Date(date);
+      return "".concat(this.pz(date.getUTCHours()), ":").concat(this.pz(date.getUTCMinutes()));
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/bootstrap/dist/js/bootstrap.js":
 /*!*****************************************************!*\
   !*** ./node_modules/bootstrap/dist/js/bootstrap.js ***!
@@ -37554,6 +37664,101 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TherapistList.vue?vue&type=template&id=38745fdd&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TherapistList.vue?vue&type=template&id=38745fdd& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { attrs: { id: "therapistList" } },
+    [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.keyword,
+            expression: "keyword"
+          }
+        ],
+        attrs: { type: "search" },
+        domProps: { value: _vm.keyword },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.keyword = $event.target.value
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("button", { on: { click: _vm.search } }, [_vm._v("Search")]),
+      _vm._v(" "),
+      _vm._l(_vm.results, function(result) {
+        return _c("div", { key: result.id, staticClass: "result" }, [
+          _c("img", {
+            attrs: {
+              src: result.profile_pic_file,
+              width: "100px",
+              height: "100px"
+            }
+          }),
+          _c("br"),
+          _vm._v(" "),
+          _c("b", [_vm._v("Name:")]),
+          _vm._v(" " + _vm._s(result.name)),
+          _c("br"),
+          _vm._v(" "),
+          _c("b", [_vm._v("Bidang:")]),
+          _vm._v(" " + _vm._s(result.expertise)),
+          _c("br"),
+          _vm._v(" "),
+          _c("b", [_vm._v("Jam Buka:")]),
+          _vm._v(" " + _vm._s(_vm.toTimeString(result.opening_hours))),
+          _c("br"),
+          _vm._v(" "),
+          _c("b", [_vm._v("Jam Tutup:")]),
+          _vm._v(" " + _vm._s(_vm.toTimeString(result.closing_hours))),
+          _c("br"),
+          _vm._v(" "),
+          _c("br", { attrs: { clear: "left" } })
+        ])
+      }),
+      _vm._v(" "),
+      !_vm.noResults && !_vm.noMoreResults
+        ? _c("button", { attrs: { type: "button" }, on: { click: _vm.more } }, [
+            _vm._v("\n    Temukan lagi\n  ")
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.noResults ? _c("div", [_vm._v("Hasil search kosong.")]) : _vm._e(),
+      _vm._v(" "),
+      _vm.noMoreResults ? _c("div", [_vm._v("Semua tertampilkan.")]) : _vm._e(),
+      _vm._v(" "),
+      _vm.searching ? _c("div", [_c("i", [_vm._v("Searching...")])]) : _vm._e()
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
 /*!********************************************************************!*\
   !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
@@ -49742,6 +49947,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
+Vue.component('therapist-list', __webpack_require__(/*! ./components/TherapistList.vue */ "./resources/js/components/TherapistList.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -49863,6 +50069,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/TherapistList.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/TherapistList.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TherapistList_vue_vue_type_template_id_38745fdd___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TherapistList.vue?vue&type=template&id=38745fdd& */ "./resources/js/components/TherapistList.vue?vue&type=template&id=38745fdd&");
+/* harmony import */ var _TherapistList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TherapistList.vue?vue&type=script&lang=js& */ "./resources/js/components/TherapistList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TherapistList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TherapistList_vue_vue_type_template_id_38745fdd___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TherapistList_vue_vue_type_template_id_38745fdd___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/TherapistList.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/TherapistList.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/TherapistList.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TherapistList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./TherapistList.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TherapistList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TherapistList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/TherapistList.vue?vue&type=template&id=38745fdd&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/TherapistList.vue?vue&type=template&id=38745fdd& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TherapistList_vue_vue_type_template_id_38745fdd___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./TherapistList.vue?vue&type=template&id=38745fdd& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TherapistList.vue?vue&type=template&id=38745fdd&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TherapistList_vue_vue_type_template_id_38745fdd___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TherapistList_vue_vue_type_template_id_38745fdd___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

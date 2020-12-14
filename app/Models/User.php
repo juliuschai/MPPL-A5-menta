@@ -44,7 +44,7 @@ class User extends Authenticatable
     public function saveProfilePic($request)
     {
         $file = $request->file('profilePic');
-        $this->profile_pic_file = $file->store('document', 'public');
+        $this->profile_pic_file = $file->store('profilePicture', 'public');
         $this->save();
     }
 

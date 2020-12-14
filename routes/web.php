@@ -25,11 +25,11 @@ Route::group(
             Route::get('home', [App\Http\Controllers\AdminController::class, 'home'])->name('admin.home');
 
             // Verify terapis
-            Route::get('verify/terapis', [App\Http\Controllers\TherapistVerifyController::class, 'listVerifyTherapist'])->name('admin.verify.therapist');
-            Route::get('verify/terapis/data', [App\Http\Controllers\TherapistVerifyController::class, 'listVerifyTherapistData'])->name('admin.verify.therapist.data');
-            Route::get('verify/terapis/{therapist}', [App\Http\Controllers\TherapistVerifyController::class, 'viewVerifyTherapist'])->name('admin.verify.therapist.view');
-            Route::post('verify/terapis/{therapist}/accept', [App\Http\Controllers\TherapistVerifyController::class, 'verifyTherapistAccept'])->name('admin.verify.therapist.accept');
-            Route::post('verify/terapis/{therapist}/deny', [App\Http\Controllers\TherapistVerifyController::class, 'verifyTherapistDeny'])->name('admin.verify.therapist.deny');
+            Route::get('verify/terapis', [App\Http\Controllers\TherapistVerifyController::class, 'list'])->name('admin.verify.therapist');
+            Route::get('verify/terapis/data', [App\Http\Controllers\TherapistVerifyController::class, 'listData'])->name('admin.verify.therapist.data');
+            Route::get('verify/terapis/{therapist}', [App\Http\Controllers\TherapistVerifyController::class, 'view'])->name('admin.verify.therapist.view');
+            Route::post('verify/terapis/{therapist}/accept', [App\Http\Controllers\TherapistVerifyController::class, 'accept'])->name('admin.verify.therapist.accept');
+            Route::post('verify/terapis/{therapist}/deny', [App\Http\Controllers\TherapistVerifyController::class, 'deny'])->name('admin.verify.therapist.deny');
 
             // Lihat pasien blokir
             Route::get('pasien', [App\Http\Controllers\UserController::class, 'listPatient'])->name('admin.patient');
@@ -100,8 +100,8 @@ Route::group(
         Route::group(
             ['middleware' => ['verified.phone']],
             function () {
-                Route::get('list', [App\Http\Controllers\TherapistController::class, 'list'])->name('therapist.list');
-                Route::get('list/data', [App\Http\Controllers\TherapistController::class, 'listData'])->name('therapist.list');
+                Route::get('list', [App\Http\Controllers\TherapistController::class, 'listAvailable'])->name('therapist.list');
+                Route::get('list/data', [App\Http\Controllers\TherapistController::class, 'listAvailableData'])->name('therapist.list.data');
 
                 Route::get('profile', [App\Http\Controllers\PatientController::class, 'showProfileEdit'])->name('profile.edit');
                 Route::post('profile', [App\Http\Controllers\PatientController::class, 'saveProfileEdit']);

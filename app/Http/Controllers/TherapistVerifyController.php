@@ -17,10 +17,12 @@ class TherapistVerifyController extends Controller
     public function save(Request $request)
     {
         $request->validate([
+            'expertise' => 'required|string',
             'document' => 'required|mimes:pdf,jpeg,jpg,png',
         ]);
 
-        User::cur()->therapist->saveDocumentFromRequest($request);
+        $therapist = User::cur()->therapist;
+        $therapist->saveVerify($request);
         return redirect()->route('therapist.verify.wait');
     }
 
@@ -37,12 +39,12 @@ class TherapistVerifyController extends Controller
     }
 
     // Admin functions
-    public function listVerifyTherapist()
+    public function list()
     {
         return view('admin.verify.therapist');
     }
 
-    public function listVerifyTherapistData()
+    public function listData()
     {
         $model = Therapist::join('users as u', 'therapists.user_id', '=', 'u.id')
             ->whereNull('therapists.verified_at')
@@ -52,12 +54,12 @@ class TherapistVerifyController extends Controller
         return DataTables::eloquent($model)->toJson();
     }
 
-    public function viewVerifyTherapist(Therapist $therapist)
+    public function view(Therapist $therapist)
     {
         return view('admin.verify.view', compact('therapist'));
     }
 
-    public function verifyTherapistAccept(Therapist $therapist)
+    public function accept(Therapist $therapist)
     {
         $therapist->verified_at = now();
         $therapist->save();
@@ -65,7 +67,7 @@ class TherapistVerifyController extends Controller
         return redirect()->route('admin.verify.therapist');
     }
 
-    public function verifyTherapistDeny(Therapist $therapist)
+    public function deny(Therapist $therapist)
     {
         $therapist->document_file = null;
         $therapist->verified_at = null;

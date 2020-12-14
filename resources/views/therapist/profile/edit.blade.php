@@ -52,7 +52,7 @@
 
                                 <div class="form-group row">
                                     <div class="col-md">
-                                        <a href="{{ route('therapist.verify') }}">Ubah dokumen</a> <br>
+                                        <a href="{{ route('therapist.verify') }}">Ubah dokumen/Bidang</a> <br>
                                         <sub>Perhatian! Anda harus tunggu verifikasi jika mengubah dokumen!</sub>
                                     </div>
                                 </div>

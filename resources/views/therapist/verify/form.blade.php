@@ -24,6 +24,14 @@
 
                                 <div class="form-group row">
                                     <div class="col-md">
+                                        <label for="expertise">Bidang</label>
+                                        <input style="border: none; margin-left: -12px;" id="expertise" type="text"
+                                            name="expertise" class="form-control" value="{{ auth()->user()->therapist->expertise }}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md">
                                         <label for="document">Dokumen bukti terapis</label>
                                         <input style="border: none; margin-left: -12px;" id="document" type="file"
                                             name="document" class="form-control">

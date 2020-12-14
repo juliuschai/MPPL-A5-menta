@@ -35,6 +35,7 @@
                                 <th class="text-center" scope="col">Nama</th>
                                 <th class="text-center" scope="col">Email</th>
                                 <th class="text-center" scope="col">No. Telp</th>
+                                <th class="text-center" scope="col">Bidang</th>
                                 <th class="text-center" scope="col">Verified</th>
                                 <th class="text-center" scope="col">Aksi</th>
                             </tr>
@@ -95,6 +96,13 @@
                     title: 'No. Telp',
                     data: 'phone_num',
                     name: 'phone_num',
+                    searchable: true,
+                    visible: true,
+                },
+                {
+                    title: 'Bidang',
+                    data: 'expertise',
+                    name: 'expertise',
                     searchable: true,
                     visible: true,
                 },

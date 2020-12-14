@@ -28,6 +28,10 @@
                                     <label>E-mail: {{ $user->email }}</label>
                                 </div>
 
+                                <div class="form-group row">
+                                    <label>Bidang: {{ $user->therapist->expertise }}</label>
+                                </div>
+
                                 @if (!$user->therapist->vacation)
                                 <div class="form-group row">
                                     <label for="openingHours">Jam Buka: {{ isset($user->therapist->opening_hours) ? $user->therapist->opening_hours->format('H:i') : '-' }}</label>

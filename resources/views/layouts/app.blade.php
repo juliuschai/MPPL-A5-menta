@@ -93,6 +93,7 @@
 
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" style="background-color: white" href="{{ 'http://'.Request::getHost().'/home' }}">Home</a>
+                                        <a class="dropdown-item" style="background-color: white" href="{{ 'http://'.Request::getHost().'/profile' }}">Profile</a>
 
                                         <a class="dropdown-item" style="background-color: white" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
