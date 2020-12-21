@@ -8,6 +8,23 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import VueChatScroll from 'vue-chat-scroll';
+import VueTimeago from 'vue-timeago';
+
+Vue.use(VueChatScroll);
+Vue.component('chat-room' , require('./components/laravel-video-chat/ChatRoom.vue').default);
+Vue.component('group-chat-room', require('./components/laravel-video-chat/GroupChatRoom.vue').default);
+Vue.component('video-section' , require('./components/laravel-video-chat/VideoSection.vue').default);
+Vue.component('file-preview' , require('./components/laravel-video-chat/FilePreview.vue').default);
+
+Vue.use(VueTimeago, {
+    name: 'timeago', // component name, `timeago` by default
+    locale: 'en',
+    locales: {
+        'en': require('date-fns/locale/en').default
+    }
+})
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -21,6 +38,7 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('therapist-list', require('./components/TherapistList.vue').default);
+Vue.component('custom-channel', require('./components/CustomChannel.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -37,6 +37,7 @@
 
     <!-- Global Init -->
     <script src="{{ asset('js/custom.js') }}" defer></script>
+    <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
 
 
     <!-- Fonts -->

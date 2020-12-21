@@ -87,7 +87,7 @@ Route::group(
 
 // Accessible to patient
 Route::group(
-    ['domain' => Config::get('app.base_domain')],
+    ['domain' => 'www.'.Config::get('app.base_domain')],
     function () {
         // Patient landing page
         Route::get('/', [App\Http\Controllers\PatientController::class, 'index'])->name('index');
@@ -98,7 +98,7 @@ Route::group(
         Route::get('home', [App\Http\Controllers\PatientController::class, 'home'])->name('home');
 
         Route::group(
-            ['middleware' => ['verified.phone']],
+            ['middleware' => ['auth', 'patient', 'verified.phone']],
             function () {
                 Route::get('list', [App\Http\Controllers\TherapistController::class, 'listAvailable'])->name('therapist.list');
                 Route::get('list/data', [App\Http\Controllers\TherapistController::class, 'listAvailableData'])->name('therapist.list.data');
@@ -123,4 +123,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('phone/verify/create', [App\Http\Controllers\PhoneController::class, 'createVerificationToken'])->name('phone.verify.create');
 
     Route::get('view/{user}', [App\Http\Controllers\UserController::class, 'showProfile'])->name('user.view');
+
+    Route::get('chat', [App\Http\Controllers\ChatController::class, 'list'])->name('chat.list');
+    Route::get('chat/{id}', [App\Http\Controllers\ChatController::class, 'view'])->name('chat.view');
+    Route::post('chat/message/send', [App\Http\Controllers\ChatController::class, 'sendMessage'])->name('chat.send');
+
+    Route::get('chat/start/{userId}', [App\Http\Controllers\ChatController::class, 'start'])->name('chat.start');
+    Route::get('chat/accept/{conversationId}', [App\Http\Controllers\ChatController::class, 'accept'])->name('chat.accept');
+
+    Route::post('trigger/{id}', [App\Http\Controllers\ChatController::class, 'startCall'])->name('call.start');
 });

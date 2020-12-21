@@ -15,6 +15,8 @@
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
+        "php-junior/laravel-video-chat": "^1.1",
+        "predis/predis": "^1.1",
         "yajra/laravel-datatables": "1.5"
     },
     "require-dev": {

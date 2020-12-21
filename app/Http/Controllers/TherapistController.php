@@ -68,12 +68,12 @@ class TherapistController extends Controller
         $page = $request->page ?? 0;
 
         $timestring = Carbon::now()->format('H:i:s');
-        $result = User::select('users.*', 't.*')
+        $result = User::select('t.*', 'users.*')
             ->whereNotNull('t.verified_at')
             ->where('vacation', false)
-            ->where('opening_hours', '>=', $timestring)
-            ->where('closing_hours', '<=', $timestring)
-            ->Where(function ($query) use ($keyword) {
+            ->where('opening_hours', '<=', $timestring)
+            ->where('closing_hours', '>=', $timestring)
+            ->where(function ($query) use ($keyword) {
                 $query->where('users.name', 'LIKE', '%' . $keyword . '%')
                     ->orWhere('t.expertise', 'LIKE', '%' . $keyword . '%');
             })

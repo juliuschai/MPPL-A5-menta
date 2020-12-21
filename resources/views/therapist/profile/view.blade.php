@@ -48,6 +48,10 @@
                                     </div>
                                 </div>
                                 @endif
+
+                                <a href="{{ route('chat.start', ['userId' => $user->id]) }}">
+                                    <button type="button" class="btn btn-warning">Chat</button>
+                                </a>
                             </form>
                         </div>
                         <div class="col">

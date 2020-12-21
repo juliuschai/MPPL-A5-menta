@@ -82,9 +82,12 @@
 	});
 
 	function onScroll(event){
+        // DEBUG: disabeled, supress errors
+        return;
 	    var scrollPos = $(document).scrollTop();
 	    $('.nav a').each(function () {
 	        var currLink = $(this);
+            if (!currLink) return;
 	        var refElement = $(currLink.attr("href"));
 	        if (refElement.position().top <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
 	            $('.nav ul li a').removeClass("active");
