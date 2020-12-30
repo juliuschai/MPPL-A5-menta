@@ -93,8 +93,10 @@
                                     </a>
 
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" style="background-color: white" href="{{ 'http://'.Request::getHost().'/home' }}">Home</a>
-                                        <a class="dropdown-item" style="background-color: white" href="{{ 'http://'.Request::getHost().'/profile' }}">Profile</a>
+                                        <a class="dropdown-item" style="background-color: white" href="{{ 'https://'.Request::getHost().'/home' }}">Home</a>
+                                        <a class="dropdown-item" style="background-color: white" href="{{ 'https://'.Request::getHost().'/chat' }}">Chat</a>
+                                        <a class="dropdown-item" style="background-color: white" href="{{ 'https://'.Request::getHost().'/transaction/list' }}">Transaksi</a>
+                                        <a class="dropdown-item" style="background-color: white" href="{{ 'https://'.Request::getHost().'/profile' }}">Profil</a>
 
                                         <a class="dropdown-item" style="background-color: white" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">

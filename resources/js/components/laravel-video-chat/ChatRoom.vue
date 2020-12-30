@@ -9,6 +9,13 @@
                         <button class="btn btn-warning btn-sm pull-right" @click="startVideoCallToUser(withUser.id)" type="button">
                             <span class="fa fa-video-camera"></span> Video Call
                         </button>
+                        <form id="endCallForm" action="" method="POST" style="display: none;">
+                            <input type="hidden" name="_token" :value="csrf">
+                            <input type="hidden" id="timeInput" name="userTime">
+                            <button id="endCallBtn" class="btn btn-danger btn-sm pull-right" type="button">
+                                <span class="fa fa-video-camera"></span> End Call
+                            </button>
+                        </form>
                     </div>
                     <div class="panel-body">
                         <ul class="chat" v-chat-scroll>
@@ -45,6 +52,7 @@
                             </button>
                         </span>
                         </div>
+<!--
                         <div class="input-group">
                             <input type="file" multiple class="form-control">
                             <span class="input-group-btn">
@@ -53,6 +61,7 @@
                             </button>
                         </span>
                         </div>
+ -->
                     </div>
                 </div>
             </div>
@@ -92,8 +101,13 @@
         var localVideo = document.getElementById('localVideo');
         var remoteVideo = document.getElementById('remoteVideo');
         var answerButton = document.getElementById('answerCallButton');
-        if (!answerButton) return;
-        answerButton.onclick = answerCall;
+        var endCallBtn = document.getElementById('endCallBtn');
+        if (answerButton) {
+            answerButton.onclick = answerCall;
+        }
+        if (endCallBtn) {
+            endCallBtn.onclick = endCallBtnClicked;
+        }
 
         $('input[type=file]').on('change', prepareUpload);
     });
@@ -113,11 +127,13 @@
     var isCaller = false;
     var peerConnectionDidCreate = false;
     var candidateDidReceived = false;
+    var callId = null;
 
     export default {
         props: ['conversation' , 'currentUser'],
         data() {
             return {
+                csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                 conversationId : this.conversation.conversationId,
                 channel : this.conversation.channel_name,
                 messages : this.conversation.messages,
@@ -131,13 +147,13 @@
         },
         methods: {
             startVideoCallToUser (id) {
-
                 Cookies.set('remoteUUID', id);
 
                 window.remoteUUID = id;
 
                 luid = Cookies.get('uuid');
                 ruid = Cookies.get('remoteUUID');
+                inputCall();
                 isCaller = true;
 
                 start()
@@ -194,6 +210,7 @@
         },
         beforeMount () {
             Cookies.set('uuid', this.currentUser.id);
+            Cookies.set('currentUserRole', this.currentUser.role);
             Cookies.set('conversationID', this.conversationId);
         },
         mounted() {
@@ -275,8 +292,29 @@
         isCaller = false;
         luid = Cookies.get('uuid');
         ruid = Cookies.get('remoteUUID');
+        inputCall();
         $('#incomingVideoCallModal').modal('hide');
         start()
+    }
+
+    /**
+     * Create new transaction for current call if the current user
+     * is a therapist
+     */
+    async function inputCall() {
+        if (Cookies.get('currentUserRole') == "therapist") {
+            var message = {from: luid, to: ruid};
+            let res = await axios.post('/call/answer', message);
+            callId = res.data.id;
+            // show end call button
+            $('#endCallForm').attr('action', `/call/finish/${callId}`).show();
+        }
+    }
+
+    function endCallBtnClicked() {
+        $('#timeInput').val(new Date());
+        console.log($('#timeInput').val());
+        $('#endCallForm').submit();
     }
 
     function gotStream(stream) {

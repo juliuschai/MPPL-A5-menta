@@ -15,9 +15,12 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('meeting_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('user_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('therapist_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->timestamp('start_at')->useCurrent();
+            $table->timestamp('end_at')->nullable();
             $table->string('payment_file_path')->nullable();
-            $table->unsignedBigInteger('harga');
+            $table->unsignedBigInteger('fee')->nullable();
             $table->timestamp('verified_at')->nullable();
             $table->timestamps();
         });

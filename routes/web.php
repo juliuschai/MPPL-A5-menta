@@ -47,6 +47,11 @@ Route::group(
             Route::get('users', [App\Http\Controllers\UserController::class, 'list'])->name('admin.users');
             Route::get('users/data', [App\Http\Controllers\UserController::class, 'listData'])->name('admin.users.data');
             Route::get('user/{user}', [App\Http\Controllers\UserController::class, 'view'])->name('admin.user.view');
+
+            // Transactions list
+            Route::get('transaction/list/data', [App\Http\Controllers\TransactionController::class, 'listDataForAdmin'])->name('admin.transaction.data');
+            Route::get('transaction/list', [App\Http\Controllers\TransactionController::class, 'listForAdmin'])->name('admin.transaction.list');
+
         });
     }
 );
@@ -71,7 +76,10 @@ Route::group(
 
             Route::get('verify/wait', [App\Http\Controllers\TherapistVerifyController::class, 'showWait'])->name('therapist.verify.wait');
 
-            Route::group(['middleware' => ['verified.therapist']], function () {
+            Route::get('transaction/list/data', [App\Http\Controllers\TransactionController::class, 'listDataForTherapist'])->name('therapist.transaction.data');
+            Route::get('transaction/list', [App\Http\Controllers\TransactionController::class, 'listForTherapist'])->name('therapist.transaction.list');
+
+                Route::group(['middleware' => ['verified.therapist']], function () {
                 // Dashboard
                 Route::get('home', [App\Http\Controllers\TherapistController::class, 'home'])->name('therapist.home');
                 // Therapist profile
@@ -81,6 +89,12 @@ Route::group(
 
             });
         });
+
+        Route::post('call/answer', [App\Http\Controllers\TransactionController::class, 'answerCall'])->name('therapist.call.answer');
+
+        Route::post('call/finish/{transaction}', [App\Http\Controllers\TransactionController::class, 'finishCall'])->name('therapist.call.finish');
+        Route::get('call/end/{transaction}', [App\Http\Controllers\TransactionController::class, 'viewEndCall'])->name('therapist.call.end');
+        Route::post('call/end/{transaction}', [App\Http\Controllers\TransactionController::class, 'saveEndCall']);
     }
 );
 
@@ -96,6 +110,9 @@ Route::group(
         Route::post('login', [App\Http\Controllers\PatientController::class, 'login']);
 
         Route::get('home', [App\Http\Controllers\PatientController::class, 'home'])->name('home');
+
+        Route::get('transaction/list/data', [App\Http\Controllers\TransactionController::class, 'listDataForPatient'])->name('transaction.data');
+        Route::get('transaction/list', [App\Http\Controllers\TransactionController::class, 'listForPatient'])->name('transaction.list');
 
         Route::group(
             ['middleware' => ['auth', 'patient', 'verified.phone']],
@@ -132,4 +149,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('chat/accept/{conversationId}', [App\Http\Controllers\ChatController::class, 'accept'])->name('chat.accept');
 
     Route::post('trigger/{id}', [App\Http\Controllers\ChatController::class, 'startCall'])->name('call.start');
+
 });
