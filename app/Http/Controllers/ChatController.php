@@ -2,20 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use PhpJunior\LaravelVideoChat\Facades\Chat;
 use PhpJunior\LaravelVideoChat\Models\Conversation\Conversation;
 
 class ChatController extends Controller
 {
+
     public function list()
     {
         $groups = Chat::getAllGroupConversations();
         $conversations = Chat::getAllConversations();
 
-        // dd($conversations[0]->message->conversation->second_user_id);
-        return view('chat.list', compact('groups', 'conversations'));
+        Cookie::queue('lastChatTime', Carbon::now(), 525600);
+        return view(
+            'chat.list',
+            compact('groups', 'conversations')
+        );
     }
 
     public function view($id)
@@ -28,10 +33,15 @@ class ChatController extends Controller
     public function start($userId)
     {
         Chat::startConversationWith($userId);
-        $conversations = Conversation::where('first_user_id', auth()->id())
-            ->get();
+        $conversations = Conversation::where(
+            'first_user_id',
+            auth()->id()
+        )->get();
         $conversation = $conversations->last();
-        Chat::sendConversationMessage($conversation->id, 'First message dari patient ke terapis');
+        Chat::sendConversationMessage(
+            $conversation->id,
+            'First message dari patient ke terapis'
+        );
 
         return redirect()->route('chat.list');
     }
@@ -50,6 +60,6 @@ class ChatController extends Controller
 
     public function startCall($id, Request $request)
     {
-        Chat::startVideoCall($id , $request->all());
+        Chat::startVideoCall($id, $request->all());
     }
 }

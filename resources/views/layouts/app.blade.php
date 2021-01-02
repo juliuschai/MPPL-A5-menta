@@ -89,13 +89,27 @@
                                 <li class="nav-item main-button dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        Hai, {{ Auth::user()->name }}! <span class="caret"></span>
+                                        Hai, {{ Auth::user()->name }}!
+                                        @if(auth()->user()->hasUnreadChat() || auth()->user()->isInDebt())
+                                        <sup id="chatNotif">🔴</sup>
+                                        @endif
+                                        <span class="caret"></span>
                                     </a>
 
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" style="background-color: white" href="{{ 'https://'.Request::getHost().'/home' }}">Home</a>
-                                        <a class="dropdown-item" style="background-color: white" href="{{ 'https://'.Request::getHost().'/chat' }}">Chat</a>
-                                        <a class="dropdown-item" style="background-color: white" href="{{ 'https://'.Request::getHost().'/transaction/list' }}">Transaksi</a>
+                                        <a class="dropdown-item" style="background-color: white" href="{{ 'https://'.Request::getHost().'/chat' }}">
+                                            Chat
+                                            @if(auth()->user()->hasUnreadChat())
+                                            <sup id="chatNotif">🔴</sup>
+                                            @endif
+                                        </a>
+                                        <a class="dropdown-item" style="background-color: white" href="{{ 'https://'.Request::getHost().'/transaction/list' }}">
+                                            Transaksi
+                                            @if(auth()->user()->isInDebt())
+                                            <sup id="chatNotif">🔴</sup>
+                                            @endif
+                                        </a>
                                         <a class="dropdown-item" style="background-color: white" href="{{ 'https://'.Request::getHost().'/profile' }}">Profil</a>
 
                                         <a class="dropdown-item" style="background-color: white" href="{{ route('logout') }}" onclick="event.preventDefault();

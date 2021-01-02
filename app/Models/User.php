@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use PhpJunior\LaravelVideoChat\Models\Message\Message;
 
 class User extends Authenticatable
 {
@@ -41,6 +44,39 @@ class User extends Authenticatable
         'verified_at' => 'datetime',
     ];
 
+    public function hasUnreadChat()
+    {
+        $lastMessage = Message::latest('messages.created_at')
+            ->join(
+                'conversations as c',
+                'c.id',
+                '=',
+                'messages.conversation_id'
+            )
+            ->where('c.first_user_id', auth()->id())
+            ->orWhere('c.second_user_id', auth()->id())
+            ->first('messages.created_at');
+
+        if (!$lastMessage) {
+            return false;
+        }
+
+        $lastTimeStr = Cookie::get('lastChatTime') ?? '1970-01-01 00:00:00';
+        $lastTime = Carbon::parse($lastTimeStr);
+
+        // if last message is newer than user's last vist to chat.list
+        $result = $lastMessage->created_at->gt($lastTime);
+
+        return $result;
+    }
+
+    public function isInDebt()
+    {
+        return Transaction::where('user_id', auth()->id())
+                ->whereNull('payment_file_path')
+                ->exists();
+    }
+
     public function saveProfilePic($request)
     {
         $file = $request->file('profilePic');
@@ -50,7 +86,9 @@ class User extends Authenticatable
 
     public function saveProfile($request)
     {
-        if ($request->email) {$this->email = $request->email;}
+        if ($request->email) {
+            $this->email = $request->email;
+        }
 
         $this->name = $request->name;
         $this->save();
