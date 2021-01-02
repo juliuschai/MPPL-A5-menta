@@ -38,6 +38,7 @@ Vue.use(VueTimeago, {
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('therapist-list', require('./components/TherapistList.vue').default);
+Vue.component('fee-form', require('./components/FeeForm.vue').default);
 Vue.component('custom-channel', require('./components/CustomChannel.vue').default);
 
 /**

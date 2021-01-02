@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Helpers\FileHelper;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
@@ -16,6 +18,35 @@ class Transaction extends Model
      * @var array
      */
     protected $fillable = ['user_id', 'therapist_id'];
+
+    public function uploadPaymentFile($request)
+    {
+        $file = $request->file('document');
+        $this->payment_file_path = $file->store('payment', 'public');
+        $this->save();
+    }
+
+    public function denyPayment()
+    {
+        FileHelper::deleteDocumentOrFail($this->payment_file_path);
+        $this->payment_file_path = null;
+        $this->save();
+    }
+
+    public function acceptPayment()
+    {
+        $time = Carbon::now()->addHours(7); // shift to gmt+7
+        $this->verified_at = $time;
+        $this->save();
+    }
+
+    /**
+     * Accessor for custom attribute total (amount paid by user)
+     */
+    public function getTotalAttribute()
+    {
+        return $this->fee * 1.1;
+    }
 
     /**
      * Start new meeting
@@ -58,13 +89,14 @@ class Transaction extends Model
     }
 
     /**
-     *
+     * Set fee for the meeting
      */
-    public function endCall($fee)
+    public function setFee($fee)
     {
-        $this->fee = $fee;
         if ($this->fee == 0) {
             $this->setFree();
+        } else {
+            $this->fee = $fee;
         }
         $this->save();
     }
@@ -74,15 +106,26 @@ class Transaction extends Model
      */
     public function setFree()
     {
-        return $this->pembayaran_file_path = 'free';
+        $this->payment_file_path = 'free';
+        $time = Carbon::now()->addHours(7); // shift to gmt+7
+        $this->verified_at = $time;
+        return;
     }
 
     /**
-     * Returns wether or not transaction is paid
+     * returns wether or not admin has verfiied the transaction
+     */
+    public function isVerified()
+    {
+        return $this->verified_at != null;
+    }
+
+    /**
+     * Returns wether or not user has uploaded proof of transfer
      */
     public function isPaid()
     {
-        return $this->pembayaran_file_path != null;
+        return $this->payment_file_path != null;
     }
 
     /**
@@ -90,7 +133,7 @@ class Transaction extends Model
      */
     public function isFree()
     {
-        return $this->pembayaran_file_path == 'free';
+        return $this->payment_file_path == 'free';
     }
 
     /**
@@ -101,10 +144,12 @@ class Transaction extends Model
     {
         if ($user1->isPatient()) {
             return $user1;
-        } else if ($user2->isPatient()) {
+        } elseif ($user2->isPatient()) {
             return $user2;
         } else {
-            Log::error("None of the users ({$user1->id}, {$user2->id}), are patients");
+            Log::error(
+                "None of the users ({$user1->id}, {$user2->id}), are patients"
+            );
         }
     }
 
@@ -119,7 +164,9 @@ class Transaction extends Model
         } elseif ($user2->isTherapist()) {
             return $user2->therapist;
         } else {
-            Log::error("None of the users ({$user1->id}, {$user2->id}), are therapists");
+            Log::error(
+                "None of the users ({$user1->id}, {$user2->id}), are therapists"
+            );
         }
     }
 }

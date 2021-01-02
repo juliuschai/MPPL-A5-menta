@@ -17,8 +17,18 @@
                     @endif
 
                     <!-- Action button templates -->
+                    <div id="callEndBtnTemplate" style="display: none;">
+                        <form id="endCallForm" action="{{ route('therapist.call.finish', ['transaction' => 0]) }}" method="POST">
+                            @csrf
+                            <input type="hidden" id="timeInput">
+                            <button id="callEndBtn" style="padding: 3px 8px" type="button" class="btn btn-danger"
+                                onclick="endCallBtnClicked(this)" title="callEnd">
+                                Akhiri
+                            </button>
+                        </form>
+                    </div>
                     <div id="viewBtnTemplate" style="display: none;">
-                        <a href="{{route('transaction.view', ['transaction' => 0])}}">
+                        <a href="{{route('therapist.transaction.view', ['transaction' => 0])}}">
                             <button id="viewBtn" style="padding: 3px 8px" type="button" class="btn btn-warning"
                                 title="View">
                                 Lihat
@@ -28,11 +38,11 @@
 
 
                     <table id="tableElm" class="table table-bordered table-striped table-bordered table-hover"
-                        data-ajaxurl="{{route('transaction.data')}}">
+                        data-ajaxurl="{{route('therapist.transaction.data')}}">
                         <thead class="thead-custom-blue">
                             <tr>
                                 <th class="text-center" scope="col">Id</th>
-                                <th class="text-center" scope="col">Terapis</th>
+                                <th class="text-center" scope="col">Pasien</th>
                                 <th class="text-center" scope="col">Waktu Mulai</th>
                                 <th class="text-center" scope="col">Waktu Akhir</th>
                                 <th class="text-center" scope="col">Harga</th>
@@ -58,6 +68,12 @@
 <script defer>
     let script = document.querySelector('#datatablesScript');
 
+    function endCallBtnClicked(elm) {
+        let $form = $(elm).parent()
+        $form.find('#timeInput').val(new Date());
+        $form.submit();
+    }
+
     script.addEventListener('load', function() {
         runonload();
     });
@@ -66,6 +82,7 @@
         var tableElm = $('#tableElm');
 
         var viewBtn = $('#viewBtnTemplate');
+        var callEndBtn = $('#callEndBtnTemplate');
 
         var datatableRes = tableElm.DataTable({
             processing: true,
@@ -80,9 +97,9 @@
                     visible: false,
                 },
                 {
-                    title: 'Terapis',
+                    title: 'Pasien',
                     data: 'name',
-                    name: 't.name',
+                    name: 'u.name',
                     searchable: true,
                     visible: true,
                 },
@@ -146,7 +163,13 @@
                     searchable: false,
                     visible: true,
                     render: function (data, type, full, meta) {
-                        return viewBtn.createButton(full.id).html();
+                        if (!full.end_at)
+                        {
+                            // call hasn't been ended yet
+                            return callEndBtn.createButton(full.id).html();
+                        } else {
+                            return viewBtn.createButton(full.id).html();
+                        }
                     }
                 },
             ],

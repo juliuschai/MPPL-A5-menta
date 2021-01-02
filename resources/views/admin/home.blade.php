@@ -16,6 +16,7 @@
                         <a href="{{ route('admin.patient') }}" class="btn btn-primary">Daftar Pasien</a>
                         <a href="{{ route('admin.therapist') }}" class="btn btn-primary">Daftar Terapis</a>
                         <a href="{{ route('admin.article') }}" class="btn btn-primary">Verifikasi Pasien</a>
+                        <a href="{{ route('admin.transaction.list') }}" class="btn btn-primary">Daftar Transaksi</a>
                     </div>
                 </div>
             </div>

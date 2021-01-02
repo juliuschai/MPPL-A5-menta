@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PatientProfileRequest extends FormRequest
+class UploadPaymentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,7 @@ class PatientProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-            'profilePic' => 'nullable|mimes:jpeg,jpg,png',
-            'email' => 'nullable|email',
+            'document' => 'required|mimes:pdf,jpeg,jpg,png',
         ];
     }
 }

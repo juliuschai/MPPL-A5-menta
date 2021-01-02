@@ -25,7 +25,7 @@ class TherapistProfileRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'profilePic' => 'nullable|mimes:pdf,jpeg,jpg,png',
+            'profilePic' => 'nullable|mimes:jpeg,jpg,png',
             'email' => 'nullable|email',
             'openingHours' => 'required|string|regex:/\d{1,2}:\d{1,2}/',
             'closingHours' => 'required|string|regex:/\d{1,2}:\d{1,2}/',

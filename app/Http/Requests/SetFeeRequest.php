@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EndCallRequest extends FormRequest
+class SetFeeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class EndCallRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'harga' => 'required|integer',
         ];
     }
 }

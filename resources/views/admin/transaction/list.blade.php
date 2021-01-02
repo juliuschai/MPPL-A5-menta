@@ -18,7 +18,7 @@
 
                     <!-- Action button templates -->
                     <div id="viewBtnTemplate" style="display: none;">
-                        <a href="{{route('transaction.view', ['transaction' => 0])}}">
+                        <a href="{{route('admin.transaction.view', ['transaction' => 0])}}">
                             <button id="viewBtn" style="padding: 3px 8px" type="button" class="btn btn-warning"
                                 title="View">
                                 Lihat
@@ -28,10 +28,11 @@
 
 
                     <table id="tableElm" class="table table-bordered table-striped table-bordered table-hover"
-                        data-ajaxurl="{{route('transaction.data')}}">
+                        data-ajaxurl="{{route('admin.transaction.data')}}">
                         <thead class="thead-custom-blue">
                             <tr>
                                 <th class="text-center" scope="col">Id</th>
+                                <th class="text-center" scope="col">Pasien</th>
                                 <th class="text-center" scope="col">Terapis</th>
                                 <th class="text-center" scope="col">Waktu Mulai</th>
                                 <th class="text-center" scope="col">Waktu Akhir</th>
@@ -80,8 +81,15 @@
                     visible: false,
                 },
                 {
-                    title: 'Terapis',
-                    data: 'name',
+                    title: 'Pasien',
+                    data: 'pasienName',
+                    name: 'u.name',
+                    searchable: true,
+                    visible: true,
+                },
+                {
+                    title: 'Therapist',
+                    data: 'therapistName',
                     name: 't.name',
                     searchable: true,
                     visible: true,
