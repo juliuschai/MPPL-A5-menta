@@ -10,7 +10,7 @@
       <b>Jam Buka:</b> {{ toTimeString(result.opening_hours) }}<br>
       <b>Jam Tutup:</b> {{ toTimeString(result.closing_hours) }}<br>
       <br clear="left">
-      <a :href="'http://menta.com/view/'+result.id">
+      <a :href="'https://www.menta.com/view/'+result.id">
         <button class="btn btn-warning">View</button>
       </a>
     </div>

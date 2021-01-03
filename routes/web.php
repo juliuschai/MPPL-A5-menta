@@ -160,4 +160,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('trigger/{id}', [App\Http\Controllers\ChatController::class, 'startCall'])->name('call.start');
 
+    Route::get('report/{user}', [App\Http\Controllers\ReportController::class, 'viewReport'])->name('user.report');
+    Route::post('report/{user}', [App\Http\Controllers\ReportController::class, 'saveReport']);
 });

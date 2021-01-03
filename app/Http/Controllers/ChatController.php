@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -42,6 +43,7 @@ class ChatController extends Controller
             $conversation->id,
             'First message dari patient ke terapis'
         );
+        Chat::acceptMessageRequest($conversation->id);
 
         return redirect()->route('chat.list');
     }
@@ -58,8 +60,14 @@ class ChatController extends Controller
         return redirect()->route('chat.list');
     }
 
+    /**
+     * ajax request to broadcast starting call to server/recepient
+     */
     public function startCall($id, Request $request)
     {
+        if (User::cur()->isInDebt()) {
+            return;
+        }
         Chat::startVideoCall($id, $request->all());
     }
 }

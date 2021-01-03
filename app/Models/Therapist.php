@@ -33,9 +33,13 @@ class Therapist extends Model
 
     public function saveProfile($request)
     {
-        if ($request->email) {$this->email = $request->email;}
+        if ($request->email) {
+            $this->user->email = $request->email;
+        }
 
-        $this->name = $request->name;
+        $this->user->name = $request->name;
+        $this->user->save();
+
         $this->opening_hours = Carbon::parse($request->openingHours);
         $this->closing_hours = Carbon::parse($request->closingHours);
         $this->save();

@@ -8,7 +8,8 @@
             <div class="col-md-8">
                 <div class="col rounded-rectangle white">
                     <div class="row justify-content-center">
-                        <chat-room :conversation="{{ $conversation }}" :current-user="{{ auth()->user() }}"></chat-room>
+                        <chat-room :conversation="{{ $conversation }}" :current-user="{{ auth()->user() }}"
+                            :in-debt={{ auth()->user()->isInDebt() ? 'true' : 'false' }}></chat-room>
                         {{-- <custom-channel> </custom-channel> --}}
                     </div>
                 </div>

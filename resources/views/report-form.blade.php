@@ -9,7 +9,7 @@
                 <div class="col rounded-rectangle white">
                     <div class="row">
                         <div class="col">
-                            <div class="title-text">{{ __('PROFILE') }}</div>
+                            <div class="title-text">{{ __('LAPOR') }}</div>
 
                             @if ($errors->any())
                             <div class="alert alert-danger">
@@ -21,26 +21,15 @@
                             </div>
                             @endif
 
-                            <form method="POST" accept="{{ route('profile.edit') }}" enctype="multipart/form-data">
+                            <form id="reportForm" method="POST"
+                                action="{{ route('user.report', ['user' => $user->id]) }}">
                                 @csrf
-
-                                <div class="form-group row">
-                                    <label for="profilePic">Profile Picture</label>
-                                    @if ($user->profile_pic_file)
-                                    <img src="{{ asset($user->profile_pic_file) }}" width="100px"
-                                        height="100px">
-                                    @endif
-                                    <div class="col-md">
-                                        <input style="border: none; margin-left: -12px;" id="profilePic" type="file"
-                                            name="profilePic" class="form-control">
-                                    </div>
-                                </div>
 
                                 <div class="form-group row">
                                     <label for="name">Name</label>
                                     <div class="col-md">
                                         <input id="name" type="text" class="form-control" name="name"
-                                            autocomplete="name" autofocus value="{{ $user->name }}">
+                                            value="{{ $user->name }}" disabled>
                                     </div>
                                 </div>
 
@@ -48,22 +37,20 @@
                                     <label for="email">E-mail</label>
                                     <div class="col-md">
                                         <input id="email" type="email" class="form-control" name="email"
-                                            pattern="[^ @]*@[^ @]*" autocomplete="email"
-                                            placeholder="{{ $user->email }}">
+                                            value="{{ $user->email }}" disabled>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <div class="col-md">
-                                        <a href="{{ route('phone.change') }}">Ubah nomor telepon</a> <br>
-                                        <sub>Perhatian! Anda harus verifikasi ulang!</sub>
-                                    </div>
+                                    <label for="reason">Alasan</label>
+                                    <textarea id="reason" type="text" class="form-control" name="reason" autofocus>
+                                    </textarea>
                                 </div>
 
                                 <div class="form-group row mb-0">
                                     <div class="col-md offset-md-4">
-                                        <button type="submit" class="btn btn-primary">
-                                            {{ __('Simpan') }}
+                                        <button type="button" class="btn btn-danger" onclick="reportBtnClicked()">
+                                            {{ __('Laporkan') }}
                                         </button>
                                     </div>
                                 </div>
@@ -80,4 +67,14 @@
         </div>
     </div>
 </main>
+@endsection
+
+@section('scripts')
+<script>
+    function reportBtnClicked() {
+        if (confirm('Apakah Anda yakin ingin melaporakan user?')) {
+            document.getElementById('reportForm').submit();
+        }
+    }
+</script>
 @endsection

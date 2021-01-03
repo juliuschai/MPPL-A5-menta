@@ -165,7 +165,7 @@
                 <div class="footer-title">Apakah kamu terapis?</div>
                 <a href="{{ route('therapist.index') }}">
                     <button class="yellow text-white" style="">
-                        Register
+                        Website Terapis
                     </button>
                 </a>
             </div>

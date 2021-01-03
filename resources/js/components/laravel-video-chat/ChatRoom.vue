@@ -6,7 +6,11 @@
                     <div class="panel-heading">
                         <span class="glyphicon glyphicon-comment"></span> Chat with {{ withUser.name }}
 
-                        <button class="btn btn-warning btn-sm pull-right" @click="startVideoCallToUser(withUser.id)" type="button">
+                        <button v-if="!inDebt" class="btn btn-warning btn-sm pull-right" @click="startVideoCallToUser(withUser.id)" type="button">
+                            <span class="fa fa-video-camera"></span> Video Call
+                        </button>
+                        <button v-else class="btn btn-warning btn-sm pull-right" @click="startVideoCallToUser(withUser.id)"
+                            type="button" disabled title="Mohon melunaskan transaksi lalu, sebelum membuat video call baru!">
                             <span class="fa fa-video-camera"></span> Video Call
                         </button>
                         <form id="endCallForm" action="" method="POST" style="display: none;">
@@ -51,6 +55,11 @@
                                 Send
                             </button>
                         </span>
+                        </div>
+                        <div class="input-group">
+                            <a class="btn btn-link" :href="'/report/' + withUser.id">
+                                Laporkan User
+                            </a>
                         </div>
 <!--
                         <div class="input-group">
@@ -130,7 +139,7 @@
     var callId = null;
 
     export default {
-        props: ['conversation' , 'currentUser'],
+        props: ['conversation' , 'currentUser', 'inDebt'],
         data() {
             return {
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -184,6 +193,7 @@
             listenForNewMessage: function () {
                 Echo.join(this.channel)
                     .listen('.PhpJunior\\LaravelVideoChat\\Events\\NewConversationMessage', (data) => {
+                        data.created_at = new Date(data.created_at + ' UTC');
                         var self = this;
                         if ( data.files.length > 0 ){
                             $.each( data.files , function( key, value ) {

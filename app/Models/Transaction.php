@@ -93,7 +93,7 @@ class Transaction extends Model
      */
     public function setFee($fee)
     {
-        if ($this->fee == 0) {
+        if ($fee == 0) {
             $this->setFree();
         } else {
             $this->fee = $fee;

@@ -2365,6 +2365,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 $(function () {
   var localVideo = document.getElementById('localVideo');
   var remoteVideo = document.getElementById('remoteVideo');
@@ -2397,7 +2406,7 @@ var peerConnectionDidCreate = false;
 var candidateDidReceived = false;
 var callId = null;
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['conversation', 'currentUser'],
+  props: ['conversation', 'currentUser', 'inDebt'],
   data: function data() {
     return {
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -2447,6 +2456,7 @@ var callId = null;
       var _this2 = this;
 
       Echo.join(this.channel).listen('.PhpJunior\\LaravelVideoChat\\Events\\NewConversationMessage', function (data) {
+        data.created_at = new Date(data.created_at + ' UTC');
         var self = _this2;
 
         if (data.files.length > 0) {
@@ -56444,9 +56454,11 @@ var render = function() {
           _vm._v(" "),
           _c("br", { attrs: { clear: "left" } }),
           _vm._v(" "),
-          _c("a", { attrs: { href: "http://menta.com/view/" + result.id } }, [
-            _c("button", { staticClass: "btn btn-warning" }, [_vm._v("View")])
-          ])
+          _c(
+            "a",
+            { attrs: { href: "https://www.menta.com/view/" + result.id } },
+            [_c("button", { staticClass: "btn btn-warning" }, [_vm._v("View")])]
+          )
         ])
       }),
       _vm._v(" "),
@@ -56498,22 +56510,44 @@ var render = function() {
                 _vm._s(_vm.withUser.name) +
                 "\n\n                        "
             ),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-warning btn-sm pull-right",
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    return _vm.startVideoCallToUser(_vm.withUser.id)
-                  }
-                }
-              },
-              [
-                _c("span", { staticClass: "fa fa-video-camera" }),
-                _vm._v(" Video Call\n                        ")
-              ]
-            ),
+            !_vm.inDebt
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-warning btn-sm pull-right",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.startVideoCallToUser(_vm.withUser.id)
+                      }
+                    }
+                  },
+                  [
+                    _c("span", { staticClass: "fa fa-video-camera" }),
+                    _vm._v(" Video Call\n                        ")
+                  ]
+                )
+              : _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-warning btn-sm pull-right",
+                    attrs: {
+                      type: "button",
+                      disabled: "",
+                      title:
+                        "Mohon melunaskan transaksi lalu, sebelum membuat video call baru!"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.startVideoCallToUser(_vm.withUser.id)
+                      }
+                    }
+                  },
+                  [
+                    _c("span", { staticClass: "fa fa-video-camera" }),
+                    _vm._v(" Video Call\n                        ")
+                  ]
+                ),
             _vm._v(" "),
             _c(
               "form",
@@ -56720,6 +56754,21 @@ var render = function() {
                   ]
                 )
               ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-link",
+                  attrs: { href: "/report/" + _vm.withUser.id }
+                },
+                [
+                  _vm._v(
+                    "\n                                Laporkan User\n                            "
+                  )
+                ]
+              )
             ])
           ])
         ])
