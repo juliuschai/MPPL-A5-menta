@@ -8,7 +8,7 @@
         <div class="right_col booking" role="main">
             <div class="col-md-12 col-sm-12" role="main">
                 <div class="col-md-12 col-sm-12">
-                    <h2 class="table-title">Daftar User</h2>
+                    <h2 class="table-title">Daftar Laporan</h2>
 
                     @if(session()->has('message'))
                     <div class="alert alert-success">
@@ -28,14 +28,17 @@
 
 
                     <table id="tableElm" class="table table-bordered table-striped table-bordered table-hover"
-                        data-ajaxurl="{{route('admin.user.data')}}">
+                        data-ajaxurl="{{route('admin.report.data')}}">
                         <thead class="thead-custom-blue">
                             <tr>
                                 <th class="text-center" scope="col">Id</th>
-                                <th class="text-center" scope="col">Nama</th>
+                                <th class="text-center" scope="col">Reported Id</th>
+                                <th class="text-center" scope="col">Reporter</th>
+                                <th class="text-center" scope="col">User</th>
                                 <th class="text-center" scope="col">Email</th>
                                 <th class="text-center" scope="col">No. Telp</th>
                                 <th class="text-center" scope="col">Role</th>
+                                <th class="text-center" scope="col">Reason</th>
                                 <th class="text-center" scope="col">Blocked</th>
                                 <th class="text-center" scope="col">Aksi</th>
                             </tr>
@@ -79,37 +82,58 @@
                     visible: false,
                 },
                 {
-                    title: 'Name',
-                    data: 'name',
-                    name: 'name',
+                    title: 'Reported Id',
+                    data: 'reported_user_id',
+                    name: 'reported_user_id',
+                    searchable: false,
+                    visible: false,
+                },
+                {
+                    title: 'Reporter',
+                    data: 'userName',
+                    name: 'u.name',
+                    searchable: true,
+                    visible: true,
+                },
+                {
+                    title: 'User',
+                    data: 'reportedName',
+                    name: 'r.name',
                     searchable: true,
                     visible: true,
                 },
                 {
                     title: 'Email',
-                    data: 'email',
-                    name: 'email',
+                    data: 'reportedEmail',
+                    name: 'r.email',
                     searchable: true,
                     visible: true,
                 },
                 {
                     title: 'No. Telp',
-                    data: 'phone_num',
-                    name: 'phone_num',
+                    data: 'reportedPhoneNum',
+                    name: 'r.phone_num',
                     searchable: true,
                     visible: true,
                 },
                 {
                     title: 'Role',
-                    data: 'role',
-                    name: 'role',
+                    data: 'reportedRole',
+                    name: 'r.role',
+                    searchable: true,
+                    visible: true,
+                },
+                {
+                    title: 'Reason',
+                    data: 'reason',
+                    name: 'reason',
                     searchable: true,
                     visible: true,
                 },
                 {
                     title: 'Blocked',
                     data: 'blocked_at',
-                    name: 'blocked_at',
+                    name: 'r.blocked_at',
                     searchable: true,
                     visible: true,
                     render: function (data, type, full, meta) {

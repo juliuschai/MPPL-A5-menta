@@ -23,8 +23,7 @@
 
                                 <div class="form-group row">
                                     @if ($user->profile_pic_file)
-                                    <img src="{{ asset($user->profile_pic_file) }}" width="100px"
-                                        height="100px">
+                                    <img src="{{ asset($user->profile_pic_file) }}" width="100px" height="100px">
                                     @endif
                                 </div>
 
@@ -48,11 +47,13 @@
 
                                 @if (!$user->therapist->vacation)
                                 <div class="form-group row">
-                                    <label for="openingHours">Jam Buka: {{ isset($user->therapist->opening_hours) ? $user->therapist->opening_hours->format('H:i') : '-' }}</label>
+                                    <label for="openingHours">Jam Buka:
+                                        {{ isset($user->therapist->opening_hours) ? $user->therapist->opening_hours->format('H:i') : '-' }}</label>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="closingHours">Jam Tutup: {{ isset($user->therapist->closing_hours) ? $user->therapist->closing_hours->format('H:i') : '-' }}</label>
+                                    <label for="closingHours">Jam Tutup:
+                                        {{ isset($user->therapist->closing_hours) ? $user->therapist->closing_hours->format('H:i') : '-' }}</label>
                                 </div>
                                 @else
                                 {{-- Libur --}}
@@ -67,6 +68,32 @@
                                     <button type="button" class="btn btn-warning">Chat</button>
                                 </a>
                             </form>
+                            @if(auth()->user()->isAdmin())
+                            @if($user->isBlocked())
+                            {{-- If user is blocked, enable unblocking user --}}
+                            <form action="{{ route('admin.user.unblock', ['user' => $user->id]) }}"
+                                method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-warning">
+                                    Unblock
+                                </button>
+                            </form>
+                            @else
+                            {{-- If user is unblocked, enable blocking user --}}
+                            <form id="blockForm" action="{{ route('admin.user.block', ['user' => $user->id]) }}"
+                                method="POST">
+                                @csrf
+                                <button type="button" class="btn btn-danger" onclick="onBlockBtnClicked()">
+                                    Block
+                                </button>
+                            </form>
+                            <script>
+                                function onBlockBtnClicked() {
+                                    if (!confirm('Apakah Anda yakin memblokir user?')) return; else document.getElementById('blockForm').submit()
+                                }
+                            </script>
+                            @endif {{-- User is currently blocked end if --}}
+                            @endif {{-- Current user is admin end if--}}
                         </div>
                         <div class="col">
                             <div class="row">

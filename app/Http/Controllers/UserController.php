@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Therapist;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -21,10 +20,18 @@ class UserController extends Controller
         return view('admin.user.list');
     }
 
-    // Start CRUD users
-    public function view(User $user)
+    public function block(User $user)
     {
-        return view('admin.user.view', compact('user'));
+        $user->block();
+
+        return redirect()->route('admin.user.list')->with('message', 'User berhasil diblokir');
+    }
+
+    public function unblock(User $user)
+    {
+        $user->unblock();
+
+        return redirect()->route('admin.user.list')->with('message', 'User berhasil dibebaskan');
     }
 
     public function showProfile(User $user)

@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('phone_num', 20);
             $table->string('profile_pic_file', 60)->nullable();
             $table->timestamp('verified_at')->nullable();
+            $table->timestamp('blocked_at')->nullable();
             $table->integer('verification_code')->nullable();
             $table->enum('role', ['patient', 'therapist', 'admin'])->default('patient');
             $table->string('password');

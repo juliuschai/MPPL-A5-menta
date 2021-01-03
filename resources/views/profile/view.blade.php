@@ -41,6 +41,32 @@
                                 </div>
                                 @endif
                             </form>
+                            @if(auth()->user()->isAdmin())
+                            @if($user->isBlocked())
+                            {{-- If user is blocked, enable unblocking user --}}
+                            <form action="{{ route('admin.user.unblock', ['user' => $user->id]) }}"
+                                method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-warning">
+                                    Unblock
+                                </button>
+                            </form>
+                            @else
+                            {{-- If user is unblocked, enable blocking user --}}
+                            <form id="blockForm" action="{{ route('admin.user.block', ['user' => $user->id]) }}"
+                                method="POST">
+                                @csrf
+                                <button type="button" class="btn btn-danger" onclick="onBlockBtnClicked()">
+                                    Block
+                                </button>
+                            </form>
+                            <script>
+                                function onBlockBtnClicked() {
+                                    if (!confirm('Apakah Anda yakin memblokir user?')) return; else document.getElementById('blockForm').submit()
+                                }
+                            </script>
+                            @endif {{-- User is currently blocked end if --}}
+                            @endif {{-- Current user is admin end if--}}
                         </div>
                         <div class="col">
                             <div class="row">
