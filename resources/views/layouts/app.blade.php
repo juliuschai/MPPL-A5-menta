@@ -82,7 +82,7 @@
                                 <li><a href="{{ route('about') }}">Tentang</a></li>
                                 {{-- <li class="scroll-to-section"><a href="#top" class="active">Beranda</a></li>
                                 <li class="scroll-to-section"><a href="#features">Tentang</a></li> --}}
-                                <li class="scroll-to-section"><a href="#our-classes">Artikel</a></li>
+                                <li><a href="{{ route('article.list') }}">Artikel</a></li>
                                 @guest
                                 <li class="main-button"><a href="{{ route('login') }}">Masuk</a></li>
                                 @else

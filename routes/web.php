@@ -32,8 +32,13 @@ Route::group(
             Route::post('verify/terapis/{therapist}/deny', [App\Http\Controllers\TherapistVerifyController::class, 'deny'])->name('admin.verify.therapist.deny');
 
             // List article
-            Route::get('artikel', [App\Http\Controllers\ArticleController::class, 'list'])->name('admin.article.list');
-            Route::get('artikel/data', [App\Http\Controllers\ArticleController::class, 'listData'])->name('admin.article.data');
+            Route::get('artikel/list', [App\Http\Controllers\ArticleController::class, 'listAdmin'])->name('admin.article.list');
+            Route::get('artikel/data', [App\Http\Controllers\ArticleController::class, 'listAdminData'])->name('admin.article.data');
+            Route::get('artikel/create', [App\Http\Controllers\ArticleController::class, 'create'])->name('admin.article.create');
+            Route::get('artikel/edit/{article}', [App\Http\Controllers\ArticleController::class, 'viewForm'])->name('admin.article.form');
+            Route::post('artikel/edit/{article}', [App\Http\Controllers\ArticleController::class, 'save']);
+            Route::post('artikel/image', [App\Http\Controllers\ArticleController::class, 'uploadImage'])->name('admin.article.image');
+            Route::post('artikel/delete/{article}', [App\Http\Controllers\ArticleController::class, 'delete'])->name('admin.article.delete');
 
             // List report
             Route::get('report/list', [App\Http\Controllers\ReportController::class, 'list'])->name('admin.report.list');
@@ -160,6 +165,8 @@ Route::group(['middleware' => ['auth', 'blocked']], function () {
     Route::get('report/{user}', [App\Http\Controllers\ReportController::class, 'viewForm'])->name('user.report');
     Route::post('report/{user}', [App\Http\Controllers\ReportController::class, 'save']);
 
+    Route::get('artikel', [App\Http\Controllers\ArticleController::class, 'list'])->name('article.list');
+    Route::get('artikel/view/{article}', [App\Http\Controllers\ArticleController::class, 'view'])->name('article.view');
 });
 
 Route::get('blocked', function () {
