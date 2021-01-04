@@ -56456,7 +56456,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "a",
-            { attrs: { href: "https://www.menta.com/view/" + result.id } },
+            { attrs: { href: "https://www.menta.website/view/" + result.id } },
             [_c("button", { staticClass: "btn btn-warning" }, [_vm._v("View")])]
           )
         ])

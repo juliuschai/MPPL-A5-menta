@@ -121,7 +121,7 @@ return [
 
     'key' => env('APP_KEY'),
 
-    'base_domain' => env('APP_BASE_DOMAIN', 'menta.com'),
+    'base_domain' => env('APP_BASE_DOMAIN', 'menta.website'),
 
     'cipher' => 'AES-256-CBC',
 
