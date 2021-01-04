@@ -54,7 +54,7 @@ class TherapistController extends Controller
 
         if (!User::cur()->isTherapist()) {
             Auth::logout();
-            abort(403, 'Bukan terapis, silahkan login di menta.com');
+            abort(403, 'Bukan terapis, silahkan login di menta.website');
         }
 
         return redirect()->intended('home');

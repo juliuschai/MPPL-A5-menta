@@ -54,7 +54,7 @@ class PatientController extends Controller
 
         if (!User::cur()->isPatient()) {
             Auth::logout();
-            abort(403, 'Bukan pasien, silahkan login di terapis.menta.com');
+            abort(403, 'Bukan pasien, silahkan login di terapis.menta.website');
         }
 
         return redirect()->intended('home');

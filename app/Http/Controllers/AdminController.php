@@ -28,7 +28,7 @@ class AdminController extends Controller
 
         if (!User::cur()->isAdmin()) {
             Auth::logout();
-            abort(403, 'Bukan admin, silahkan login di menta.com');
+            abort(403, 'Bukan admin, silahkan login di menta.website');
         }
 
         return redirect()->intended('home');

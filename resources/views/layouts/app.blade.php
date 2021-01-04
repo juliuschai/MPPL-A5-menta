@@ -159,7 +159,7 @@
                 Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta,
                 Fakultas Psikologi Universitas Gadjah Mada <br>
                 <br>
-                Email : help@menta.com
+                Email : help@menta.website
             </div>
             <div class="col-sm">
                 <div class="footer-title">Apakah kamu terapis?</div>
