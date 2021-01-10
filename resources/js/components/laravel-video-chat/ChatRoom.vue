@@ -339,14 +339,6 @@
 
         navigator.mediaDevices.getUserMedia({
             audio: true,
-            video: {
-                width: {
-                    exact: 320
-                },
-                height: {
-                    exact: 240
-                }
-            }
         })
         .then(gotStream)
         .catch(function(e) {

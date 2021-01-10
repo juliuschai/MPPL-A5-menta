@@ -120,6 +120,9 @@ Route::group(
 
         Route::get('home', [App\Http\Controllers\PatientController::class, 'home'])->name('home');
 
+        Route::get('artikel', [App\Http\Controllers\ArticleController::class, 'list'])->name('article.list');
+        Route::get('artikel/view/{article}', [App\Http\Controllers\ArticleController::class, 'view'])->name('article.view');
+
         Route::group(
             ['middleware' => ['auth', 'blocked', 'patient', 'verified.phone']],
             function () {
@@ -165,8 +168,6 @@ Route::group(['middleware' => ['auth', 'blocked']], function () {
     Route::get('report/{user}', [App\Http\Controllers\ReportController::class, 'viewForm'])->name('user.report');
     Route::post('report/{user}', [App\Http\Controllers\ReportController::class, 'save']);
 
-    Route::get('artikel', [App\Http\Controllers\ArticleController::class, 'list'])->name('article.list');
-    Route::get('artikel/view/{article}', [App\Http\Controllers\ArticleController::class, 'view'])->name('article.view');
 });
 
 Route::get('blocked', function () {

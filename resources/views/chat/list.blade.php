@@ -8,7 +8,6 @@
             <div class="col-md-8">
                 <div class="col rounded-rectangle white">
                     <div class="row justify-content-center">
-                        <h2>Test</h2>
                         <ul class="list-group">
                             @foreach($conversations as $inbox)
                             <li class="list-group-item">
