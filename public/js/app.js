@@ -2532,14 +2532,6 @@ function onSignalCandidate(candidate) {
   onRemoteIceCandidate(candidate);
 }
 
-var signalingstatechangeFunction = function signalingstatechangeFunction() {
-  if (pc.signalingState === 'stable') {
-    applyRemoteCandidates();
-  }
-};
-
-pc.onsignalingstatechange = signalingstatechangeFunction;
-
 function onRemoteIceCandidate(candidate) {
   trace('onRemoteIceCandidate : ' + candidate); // if(peerConnectionDidCreate){
 
@@ -2691,6 +2683,10 @@ function call() {
     onIceStateChange(pc, e);
   };
 
+  pc.onsignalingstatechange = function (e) {
+    signalingstatechangeFunction(pc, e);
+  };
+
   console.log('breakpoint');
   pc.ontrack = gotRemoteStream;
   pc.addStream(localStream);
@@ -2786,6 +2782,16 @@ function onIceStateChange(pc, event) {
     console.log('ICE state change event: ', event);
   }
 }
+
+function signalingstatechangeFunction(pc, event) {
+  if (pc) {
+    if (pc.signalingState === 'stable') {
+      applyRemoteCandidates();
+    }
+  }
+}
+
+;
 
 function onCreateSessionDescriptionError(error) {
   trace('Failed to create session description: ' + error.toString());
