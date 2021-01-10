@@ -267,9 +267,18 @@
         onRemoteIceCandidate(candidate);
     }
 
+    var signalingstatechangeFunction = function () {
+        if (pc.signalingState === 'stable') {
+            applyRemoteCandidates();
+        }
+    };
+
+    pc.onsignalingstatechange = signalingstatechangeFunction;
+
     function onRemoteIceCandidate(candidate){
         trace('onRemoteIceCandidate : ' + candidate);
-        if(peerConnectionDidCreate){
+        // if(peerConnectionDidCreate){
+        if(pc.signalingState === 'stable'){
             addRemoteCandidate(candidate);
         }else{
             //remoteCandidates.push(candidate);
@@ -366,10 +375,13 @@
 
         var configuration = {
             "iceServers": [{
-                "urls": "turn:www.menta.website:3478",
-                "username": "turnusermenta",
-                "credential": "pqowieuryt0)1!",
-                 }],
+                "urls": "stun:stun.l.google.com:19302"
+                },
+                {
+                    "urls": "turn:www.menta.website:3478?transport=tcp",
+                    "username": "turnusermenta",
+                    "credential": "pqowieuryt0011"
+                }],
             offerToReceiveAudio: true,
             offerToReceiveVideo: true
         };
@@ -448,6 +460,7 @@
     }
 
     function addRemoteCandidate(candidate){
+        console.log(candidate);
         pc.addIceCandidate(candidate).then(
             function() {
                 onAddIceCandidateSuccess(pc);

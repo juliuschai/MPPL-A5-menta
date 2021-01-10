@@ -2532,10 +2532,18 @@ function onSignalCandidate(candidate) {
   onRemoteIceCandidate(candidate);
 }
 
-function onRemoteIceCandidate(candidate) {
-  trace('onRemoteIceCandidate : ' + candidate);
+var signalingstatechangeFunction = function signalingstatechangeFunction() {
+  if (pc.signalingState === 'stable') {
+    applyRemoteCandidates();
+  }
+};
 
-  if (peerConnectionDidCreate) {
+pc.onsignalingstatechange = signalingstatechangeFunction;
+
+function onRemoteIceCandidate(candidate) {
+  trace('onRemoteIceCandidate : ' + candidate); // if(peerConnectionDidCreate){
+
+  if (pc.signalingState === 'stable') {
     addRemoteCandidate(candidate);
   } else {
     //remoteCandidates.push(candidate);
@@ -2663,13 +2671,12 @@ function call() {
 
   var configuration = {
     "iceServers": [{
-        "urls": "stun:stun.l.google.com:19302"
-      },
-      {
-        "urls": "turn:www.menta.website:3478?transport=tcp",
-        "username": "turnusermenta",
-        "credential": "pqowieuryt0011"
-      }],
+      "urls": "stun:stun.l.google.com:19302"
+    }, {
+      "urls": "turn:www.menta.website:3478?transport=tcp",
+      "username": "turnusermenta",
+      "credential": "pqowieuryt0011"
+    }],
     offerToReceiveAudio: true,
     offerToReceiveVideo: true
   };
@@ -2741,7 +2748,7 @@ function applyRemoteCandidates() {
 }
 
 function addRemoteCandidate(candidate) {
-console.log(candidate);
+  console.log(candidate);
   pc.addIceCandidate(candidate).then(function () {
     onAddIceCandidateSuccess(pc);
   }, function (err) {
