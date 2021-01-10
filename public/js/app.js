@@ -2663,10 +2663,13 @@ function call() {
 
   var configuration = {
     "iceServers": [{
-      "urls": "turn:www.menta.website:3478",
-      "username": "turnusermenta",
-      "credential": "pqowieuryt0)1!"
-    }],
+        "urls": "stun:stun.l.google.com:19302"
+      },
+      {
+        "urls": "turn:www.menta.website:3478?transport=tcp",
+        "username": "turnusermenta",
+        "credential": "pqowieuryt0011"
+      }],
     offerToReceiveAudio: true,
     offerToReceiveVideo: true
   };
@@ -2738,6 +2741,7 @@ function applyRemoteCandidates() {
 }
 
 function addRemoteCandidate(candidate) {
+console.log(candidate);
   pc.addIceCandidate(candidate).then(function () {
     onAddIceCandidateSuccess(pc);
   }, function (err) {
