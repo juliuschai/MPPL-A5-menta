@@ -2663,7 +2663,9 @@ function call() {
 
   var configuration = {
     "iceServers": [{
-      "urls": "stun:stun.ideasip.com"
+      "urls": "turn:www.menta.website:3478",
+      "username": "turnusermenta",
+      "credential": "pqowieuryt0)1!"
     }],
     offerToReceiveAudio: true,
     offerToReceiveVideo: true

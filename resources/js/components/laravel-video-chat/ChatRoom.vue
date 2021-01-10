@@ -365,7 +365,11 @@
         }
 
         var configuration = {
-            "iceServers": [{ "urls": "stun:stun.ideasip.com" }],
+            "iceServers": [{
+                "urls": "turn:www.menta.website:3478",
+                "username": "turnusermenta",
+                "credential": "pqowieuryt0)1!",
+                 }],
             offerToReceiveAudio: true,
             offerToReceiveVideo: true
         };
